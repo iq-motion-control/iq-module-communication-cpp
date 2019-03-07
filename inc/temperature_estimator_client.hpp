@@ -18,7 +18,7 @@
 */
 
 /*
-  Name: temperature_monitor_uc_client.hpp
+  Name: temperature_estimator_client.hpp
   Last update: 3/7/2019 by Raphael Van Hoffelen
   Author: Matthew Piccoli
   Contributors: Raphael Van Hoffelen

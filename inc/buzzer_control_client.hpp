@@ -18,7 +18,7 @@
 */
 
 /*
-  Name: buffered_voltage_monitor_client.hpp
+  Name: buzzer_control_client.hpp
   Last update: 3/7/2019 by Raphael Van Hoffelen
   Author: Matthew Piccoli
   Contributors: Raphael Van Hoffelen

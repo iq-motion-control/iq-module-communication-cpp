@@ -18,7 +18,7 @@
 */
 
 /*
-  Name: generic_interface.c
+  Name: generic_interface.cpp
   Last update: 3/7/2019 by Raphael Van Hoffelen
   Author: Matthew Piccoli
   Contributors: Raphael Van Hoffelen
