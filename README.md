@@ -8,7 +8,7 @@ This is the library to control a IQ Motion Control Module with C++
 
 Add this library to your C++ project to interface with the motors.  
 Read the programming [documentation](http://iq-control.com/documentation) on our website to learn how to use this library.  
-Use our [release page](add,correct,url) to make sure you are using the latest version
+Use our [release page](https://github.com/iq-motion-control/iq-module-communication-cpp/releases) to make sure you are using the latest version
 
 ### Prerequisites
 
@@ -20,8 +20,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).  
-For the releases available, see the [releases on this repository](add.url.).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/iq-motion-control/iq-module-communication-cpp/tags).  
+For the releases available, see the [releases on this repository](https://github.com/iq-motion-control/iq-module-communication-cpp/releases).
 
 ## Authors
 
