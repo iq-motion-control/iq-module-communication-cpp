@@ -24,6 +24,8 @@
   Contributors: Raphael Van Hoffelen
 */
 
+#include "client_communication.hpp"
+
 int8_t ParseMsg(uint8_t* rx_data, uint8_t rx_length,
   ClientEntryAbstract** entry_array, uint8_t entry_length)
 {
