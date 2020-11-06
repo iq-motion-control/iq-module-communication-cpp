@@ -1,4 +1,5 @@
-![Release Version](release_badge.svg)
+![tag](https://img.shields.io/github/v/tag/iq-motion-control/iq-module-communication-cpp)
+![release](https://img.shields.io/github/release/iq-motion-control/iq-module-communication-cpp/all.svg)
 
 # C++ API
 
@@ -7,7 +8,7 @@ This is the library to control a IQ Motion Control Module with C++
 ## Getting Started
 
 Add this library to your C++ project to interface with the motors.  
-Read the programming [documentation](http://iq-control.com/documentation) on our website to learn how to use this library.  
+Read the programming [documentation](http://iq-control.com/support) on our website to learn how to use this library.  
 Use our [release page](https://github.com/iq-motion-control/iq-module-communication-cpp/releases) to make sure you are using the latest version
 
 ### Prerequisites
