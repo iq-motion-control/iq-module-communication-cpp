@@ -32,4 +32,4 @@ See also the list of [contributors](contributors.md) who participated in this pr
 
 ## License
 
-This project is licensed under the GNU LGPL-3.0-or-later license - see the [LICENSE.md](LICENSE) file for details
+This project is licensed under the MIT license - see the [LICENSE.md](LICENSE) file for details
