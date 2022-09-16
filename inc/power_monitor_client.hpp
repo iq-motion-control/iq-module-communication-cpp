@@ -41,19 +41,19 @@ class PowerMonitorClient: public ClientAbstract{
 
     // Client Entries
     // Control commands
-    ClientEntry<float>    volts_;
-    ClientEntry<float>    amps_;
-    ClientEntry<float>    watts_;
-    ClientEntry<float>    joules_;
-    ClientEntryVoid       reset_joules_;
-    ClientEntry<uint32_t> filter_fs_;
-    ClientEntry<uint32_t> filter_fc_;
-    ClientEntry<uint16_t> volts_raw_;
-    ClientEntry<uint16_t> amps_raw_;
-    ClientEntry<float>    volts_gain_;
-    ClientEntry<float>    amps_gain_;
-    ClientEntry<float>    amps_bias_;
-    ClientEntry<float>    vref_;
+    ClientEntry<float>      volts_;
+    ClientEntry<float>      amps_;
+    ClientEntry<float>      watts_;
+    ClientEntry<float>      joules_;
+    ClientEntryVoid         reset_joules_;
+    ClientEntry<uint32_t>   filter_fs_;
+    ClientEntry<uint32_t>   filter_fc_;
+    ClientEntry<uint16_t>   volts_raw_;
+    ClientEntry<uint16_t>   amps_raw_;
+    ClientEntry<float>      volts_gain_;
+    ClientEntry<float>      amps_gain_;
+    ClientEntry<float>      amps_bias_;
+    ClientEntry<float>      vref_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
@@ -79,19 +79,19 @@ class PowerMonitorClient: public ClientAbstract{
     }
 
   private:
-    static const uint8_t kSubVolts =      0;
-    static const uint8_t kSubAmps =       1;
-    static const uint8_t kSubWatts =      2;
-    static const uint8_t kSubJoules =     3;
-    static const uint8_t kSubResetJoules =4;
-    static const uint8_t kSubFilterFs =   5;
-    static const uint8_t kSubFilterFc =   6;
-    static const uint8_t kSubVoltsRaw =   7;
-    static const uint8_t kSubAmpsRaw =    8;
-    static const uint8_t kSubVoltsGain =  9;
-    static const uint8_t kSubAmpsGain =   10;
-    static const uint8_t kSubAmpsBias =   11;
-    static const uint8_t kSubVref =       12;
+    static const uint8_t kSubVolts        =  0;
+    static const uint8_t kSubAmps         =  1;
+    static const uint8_t kSubWatts        =  2;
+    static const uint8_t kSubJoules       =  3;
+    static const uint8_t kSubResetJoules  =  4;
+    static const uint8_t kSubFilterFs     =  5;
+    static const uint8_t kSubFilterFc     =  6;
+    static const uint8_t kSubVoltsRaw     =  7;
+    static const uint8_t kSubAmpsRaw      =  8;
+    static const uint8_t kSubVoltsGain    =  9;
+    static const uint8_t kSubAmpsGain     = 10;
+    static const uint8_t kSubAmpsBias     = 11;
+    static const uint8_t kSubVref         = 12;
 };
 
 #endif /* POWER_MONITOR_CLIENT_HPP_ */
