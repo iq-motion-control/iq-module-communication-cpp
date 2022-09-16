@@ -23,13 +23,13 @@ const uint8_t kTypeHobbyInput = 76;
 class HobbyInputClient: public ClientAbstract{
   public:
     HobbyInputClient(uint8_t obj_idn):
-      ClientAbstract(     kTypeHobbyInput, obj_idn),
-      allowed_protocols_( kTypeHobbyInput, obj_idn, kSubAllowedProtocols),
-      protocol_( kTypeHobbyInput, obj_idn, kSubProtocol),
-      calibrated_protocol_( kTypeHobbyInput, obj_idn, kSubCalibratedProtocol),
-      calibrated_high_ticks_us_( kTypeHobbyInput, obj_idn, kSubCalibratedHighTicksUs),
-      calibrated_low_ticks_us_( kTypeHobbyInput, obj_idn, kSubCalibratedLowTicksUs),
-      reset_calibration_( kTypeHobbyInput, obj_idn, kSubResetCalibration)
+      ClientAbstract(             kTypeHobbyInput, obj_idn),
+      allowed_protocols_(         kTypeHobbyInput, obj_idn, kSubAllowedProtocols),
+      protocol_(                  kTypeHobbyInput, obj_idn, kSubProtocol),
+      calibrated_protocol_(       kTypeHobbyInput, obj_idn, kSubCalibratedProtocol),
+      calibrated_high_ticks_us_(  kTypeHobbyInput, obj_idn, kSubCalibratedHighTicksUs),
+      calibrated_low_ticks_us_(   kTypeHobbyInput, obj_idn, kSubCalibratedLowTicksUs),
+      reset_calibration_(         kTypeHobbyInput, obj_idn, kSubResetCalibration)
       {};
 
     // Client Entries
@@ -45,12 +45,12 @@ class HobbyInputClient: public ClientAbstract{
     {
       static const uint8_t kEntryLength = kSubResetCalibration+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
-        &allowed_protocols_,       // 0
-        &protocol_,                // 1
-        &calibrated_protocol_,     // 2
+        &allowed_protocols_,        // 0
+        &protocol_,                 // 1
+        &calibrated_protocol_,      // 2
         &calibrated_high_ticks_us_, // 3
         &calibrated_low_ticks_us_,  // 4
-        &reset_calibration_        // 5
+        &reset_calibration_         // 5
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
