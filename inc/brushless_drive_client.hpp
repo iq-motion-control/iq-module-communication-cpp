@@ -23,67 +23,64 @@ const uint8_t kTypeBrushlessDrive = 50;
 class BrushlessDriveClient: public ClientAbstract{
   public:
     BrushlessDriveClient(uint8_t obj_idn):
-      ClientAbstract(       kTypeBrushlessDrive, obj_idn),
-      drive_mode_(          kTypeBrushlessDrive, obj_idn, kSubDriveMode),
-      drive_phase_pwm_(     kTypeBrushlessDrive, obj_idn, kSubDrivePhasePwm),
-      drive_phase_volts_(   kTypeBrushlessDrive, obj_idn, kSubDrivePhaseVolts),
-      drive_spin_pwm_(      kTypeBrushlessDrive, obj_idn, kSubDriveSpinPwm),
-      drive_spin_volts_(    kTypeBrushlessDrive, obj_idn, kSubDriveSpinVolts),
-      drive_brake_(         kTypeBrushlessDrive, obj_idn, kSubDriveBrake),
-      drive_coast_(         kTypeBrushlessDrive, obj_idn, kSubDriveCoast),
-      drive_angle_offset_(  kTypeBrushlessDrive, obj_idn, kSubDriveAngleOffset),
-      drive_pwm_(           kTypeBrushlessDrive, obj_idn, kSubDrivePwm),
-      drive_volts_(         kTypeBrushlessDrive, obj_idn, kSubDriveVolts),
-      mech_lead_angle_(     kTypeBrushlessDrive, obj_idn, kSubMechLeadAngle),
-      obs_supply_volts_(    kTypeBrushlessDrive, obj_idn, kSubObsSupplyVolts),
-      obs_angle_(           kTypeBrushlessDrive, obj_idn, kSubObsAngle),
-      obs_velocity_(        kTypeBrushlessDrive, obj_idn, kSubObsVelocity),
-      motor_pole_pairs_(    kTypeBrushlessDrive, obj_idn, kSubMotorPolePairs),
-      motor_emf_shape_(     kTypeBrushlessDrive, obj_idn, kSubMotorEmfShape),
-      permute_wires_(       kTypeBrushlessDrive, obj_idn, kSubPermuteWires),
-      calibration_angle_(   kTypeBrushlessDrive, obj_idn, kSubOCalibrationAngle),
-      lead_time_(           kTypeBrushlessDrive, obj_idn, kSubLeadTime),
-      commutation_hz_(      kTypeBrushlessDrive, obj_idn, kSubCommutationHz),
-      phase_angle_(         kTypeBrushlessDrive, obj_idn, kSubPhaseAngle),
-
-      drive_volts_addition_(kTypeBrushlessDrive, obj_idn, kSubDriveVoltsAddition),
-      angle_adjust_enable_( kTypeBrushlessDrive, obj_idn, kSubAngleAdjustEnable),
-      motor_emf_calc_(      kTypeBrushlessDrive, obj_idn, kSubMotorEmfCalc),
-      angle_adjustment_(    kTypeBrushlessDrive, obj_idn, kSubAngleAdjustment), 
-      angle_adjust_max_(    kTypeBrushlessDrive, obj_idn, kSubAngleAdjustMax),   
-      angle_adjust_kp_(     kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKp),    
-      angle_adjust_ki_(     kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKi),    
-
-      motor_Kv_(            kTypeBrushlessDrive, obj_idn, kSubMotorKv),
-      motor_R_ohm_(         kTypeBrushlessDrive, obj_idn, kSubMotorROhm),
-      motor_I_max_(         kTypeBrushlessDrive, obj_idn, kSubMotorIMax),
-      volts_limit_(         kTypeBrushlessDrive, obj_idn, kSubVoltsLimit),
-      est_motor_amps_(      kTypeBrushlessDrive, obj_idn, kSubEstMotorAmps),
-      est_motor_torque_(    kTypeBrushlessDrive, obj_idn, kSubEstMotorTorque),
-      motor_redline_start_( kTypeBrushlessDrive, obj_idn, kSubMotorRedlineStart),
-      motor_redline_end_(   kTypeBrushlessDrive, obj_idn, kSubMotorRedlineEnd),
-      motor_l_(             kTypeBrushlessDrive, obj_idn, kSubMotorL),
-      derate_(              kTypeBrushlessDrive, obj_idn, kSubDerate),
-
-      motor_i_soft_start_(              kTypeBrushlessDrive, obj_idn,  kSubMotorISoftStart),            
-      motor_i_soft_end_(                kTypeBrushlessDrive, obj_idn,  kSubMotorISoftEnd),             
-      emf_(                             kTypeBrushlessDrive, obj_idn,  kSubEmf),                       
-      volts_at_max_amps_(               kTypeBrushlessDrive, obj_idn,  kSubVoltsAtMaxAmps),            
-      slew_volts_per_second_(           kTypeBrushlessDrive, obj_idn,  kSubSlewVoltsPerSecond),        
-      slew_enable_(                     kTypeBrushlessDrive, obj_idn,  kSubSlewEnable),                
-      motoring_supply_current_limit_(   kTypeBrushlessDrive, obj_idn,  kSubMotoringSupplyCurrentLimit),
-      regen_supply_current_limit_(      kTypeBrushlessDrive, obj_idn,  kSubRegenSupplyCurrentLimit),
-      supply_current_limit_enable_(     kTypeBrushlessDrive, obj_idn,  kSubSupplyCurrentLimitEnable),
-      regen_limiting_(                  kTypeBrushlessDrive, obj_idn,  kSubRegenLimiting),             
-      regen_limit_adjust_(              kTypeBrushlessDrive, obj_idn,  kSubRegenLimitAdjust),          
-      motoring_limiting_(               kTypeBrushlessDrive, obj_idn,  kSubMotoringLimiting),          
-      motoring_limit_adjust_(           kTypeBrushlessDrive, obj_idn,  kSubMotoringLimitAdjust),
-      regen_limit_kp_(                  kTypeBrushlessDrive, obj_idn,  kSubRegenLimitKp),
-      regen_limit_ki_(                  kTypeBrushlessDrive, obj_idn,  kSubRegenLimitKi),              
-      regen_limit_max_(                 kTypeBrushlessDrive, obj_idn,  kSubRegenLimitMax),             
-      motoring_limit_kp_(               kTypeBrushlessDrive, obj_idn,  kSubMotoringLimitKp),
-      motoring_limit_ki_(               kTypeBrushlessDrive, obj_idn,  kSubMotoringLimitKi),
-      motoring_limit_max_(              kTypeBrushlessDrive, obj_idn,  kSubMotoringLimitMax)
+      ClientAbstract(                   kTypeBrushlessDrive, obj_idn),
+      drive_mode_(                      kTypeBrushlessDrive, obj_idn, kSubDriveMode),
+      drive_phase_pwm_(                 kTypeBrushlessDrive, obj_idn, kSubDrivePhasePwm),
+      drive_phase_volts_(               kTypeBrushlessDrive, obj_idn, kSubDrivePhaseVolts),
+      drive_spin_pwm_(                  kTypeBrushlessDrive, obj_idn, kSubDriveSpinPwm),
+      drive_spin_volts_(                kTypeBrushlessDrive, obj_idn, kSubDriveSpinVolts),
+      drive_brake_(                     kTypeBrushlessDrive, obj_idn, kSubDriveBrake),
+      drive_coast_(                     kTypeBrushlessDrive, obj_idn, kSubDriveCoast),
+      drive_angle_offset_(              kTypeBrushlessDrive, obj_idn, kSubDriveAngleOffset),
+      drive_pwm_(                       kTypeBrushlessDrive, obj_idn, kSubDrivePwm),
+      drive_volts_(                     kTypeBrushlessDrive, obj_idn, kSubDriveVolts),
+      mech_lead_angle_(                 kTypeBrushlessDrive, obj_idn, kSubMechLeadAngle),
+      obs_supply_volts_(                kTypeBrushlessDrive, obj_idn, kSubObsSupplyVolts),
+      obs_angle_(                       kTypeBrushlessDrive, obj_idn, kSubObsAngle),
+      obs_velocity_(                    kTypeBrushlessDrive, obj_idn, kSubObsVelocity),
+      motor_pole_pairs_(                kTypeBrushlessDrive, obj_idn, kSubMotorPolePairs),
+      motor_emf_shape_(                 kTypeBrushlessDrive, obj_idn, kSubMotorEmfShape),
+      permute_wires_(                   kTypeBrushlessDrive, obj_idn, kSubPermuteWires),
+      calibration_angle_(               kTypeBrushlessDrive, obj_idn, kSubOCalibrationAngle),
+      lead_time_(                       kTypeBrushlessDrive, obj_idn, kSubLeadTime),
+      commutation_hz_(                  kTypeBrushlessDrive, obj_idn, kSubCommutationHz),
+      phase_angle_(                     kTypeBrushlessDrive, obj_idn, kSubPhaseAngle),
+      drive_volts_addition_(            kTypeBrushlessDrive, obj_idn, kSubDriveVoltsAddition),
+      angle_adjust_enable_(             kTypeBrushlessDrive, obj_idn, kSubAngleAdjustEnable),
+      motor_emf_calc_(                  kTypeBrushlessDrive, obj_idn, kSubMotorEmfCalc),
+      angle_adjustment_(                kTypeBrushlessDrive, obj_idn, kSubAngleAdjustment), 
+      angle_adjust_max_(                kTypeBrushlessDrive, obj_idn, kSubAngleAdjustMax),   
+      angle_adjust_kp_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKp),    
+      angle_adjust_ki_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKi),    
+      motor_Kv_(                        kTypeBrushlessDrive, obj_idn, kSubMotorKv),
+      motor_R_ohm_(                     kTypeBrushlessDrive, obj_idn, kSubMotorROhm),
+      motor_I_max_(                     kTypeBrushlessDrive, obj_idn, kSubMotorIMax),
+      volts_limit_(                     kTypeBrushlessDrive, obj_idn, kSubVoltsLimit),
+      est_motor_amps_(                  kTypeBrushlessDrive, obj_idn, kSubEstMotorAmps),
+      est_motor_torque_(                kTypeBrushlessDrive, obj_idn, kSubEstMotorTorque),
+      motor_redline_start_(             kTypeBrushlessDrive, obj_idn, kSubMotorRedlineStart),
+      motor_redline_end_(               kTypeBrushlessDrive, obj_idn, kSubMotorRedlineEnd),
+      motor_l_(                         kTypeBrushlessDrive, obj_idn, kSubMotorL),
+      derate_(                          kTypeBrushlessDrive, obj_idn, kSubDerate),
+      motor_i_soft_start_(              kTypeBrushlessDrive, obj_idn, kSubMotorISoftStart),            
+      motor_i_soft_end_(                kTypeBrushlessDrive, obj_idn, kSubMotorISoftEnd),             
+      emf_(                             kTypeBrushlessDrive, obj_idn, kSubEmf),                       
+      volts_at_max_amps_(               kTypeBrushlessDrive, obj_idn, kSubVoltsAtMaxAmps),            
+      slew_volts_per_second_(           kTypeBrushlessDrive, obj_idn, kSubSlewVoltsPerSecond),        
+      slew_enable_(                     kTypeBrushlessDrive, obj_idn, kSubSlewEnable),                
+      motoring_supply_current_limit_(   kTypeBrushlessDrive, obj_idn, kSubMotoringSupplyCurrentLimit),
+      regen_supply_current_limit_(      kTypeBrushlessDrive, obj_idn, kSubRegenSupplyCurrentLimit),
+      supply_current_limit_enable_(     kTypeBrushlessDrive, obj_idn, kSubSupplyCurrentLimitEnable),
+      regen_limiting_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimiting),             
+      regen_limit_adjust_(              kTypeBrushlessDrive, obj_idn, kSubRegenLimitAdjust),          
+      motoring_limiting_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimiting),          
+      motoring_limit_adjust_(           kTypeBrushlessDrive, obj_idn, kSubMotoringLimitAdjust),
+      regen_limit_kp_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimitKp),
+      regen_limit_ki_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimitKi),              
+      regen_limit_max_(                 kTypeBrushlessDrive, obj_idn, kSubRegenLimitMax),             
+      motoring_limit_kp_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimitKp),
+      motoring_limit_ki_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimitKi),
+      motoring_limit_max_(              kTypeBrushlessDrive, obj_idn, kSubMotoringLimitMax)
       {};
 
     // Client Entries
@@ -113,7 +110,6 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<uint32_t>   commutation_hz_;
     // Fixed phase angle
     ClientEntry<float>      phase_angle_;
-
     ClientEntry<float>      drive_volts_addition_;
     ClientEntry<uint8_t>    angle_adjust_enable_; 
     ClientEntry<float>      motor_emf_calc_;      
@@ -121,7 +117,6 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      angle_adjust_max_;    
     ClientEntry<float>      angle_adjust_kp_;     
     ClientEntry<float>      angle_adjust_ki_;        
-
     // Motor parameter details
     ClientEntry<float>      motor_Kv_;
     ClientEntry<float>      motor_R_ohm_;
@@ -160,47 +155,47 @@ class BrushlessDriveClient: public ClientAbstract{
     {
       static const uint8_t kEntryLength = kSubMotoringLimitMax+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
-        &drive_mode_,           // 0
-        &drive_phase_pwm_,      // 1
-        &drive_phase_volts_,    // 2
-        &drive_spin_pwm_,       // 3
-        &drive_spin_volts_,     // 4
-        &drive_brake_,          // 5
-        &drive_coast_,          // 6
-        &drive_angle_offset_,   // 7
-        &drive_pwm_,            // 8
-        &drive_volts_,          // 9
-        &mech_lead_angle_,      // 10
-        &obs_supply_volts_,     // 11
-        &obs_angle_,            // 12
-        &obs_velocity_,         // 13
-        &motor_pole_pairs_,     // 14
-        &motor_emf_shape_,      // 15
-        &permute_wires_,        // 16
-        &calibration_angle_,    // 17
-        &lead_time_,            // 18
-        &commutation_hz_,       // 19
-        &phase_angle_,          // 20
-        &drive_volts_addition_, // 21
-        &angle_adjust_enable_,  // 22
-        &motor_emf_calc_,       // 23
-        &angle_adjustment_,     // 24
-        &angle_adjust_max_,     // 25
-        &angle_adjust_kp_,      // 26
-        &angle_adjust_ki_,      // 27
-        nullptr,                // 28
-        nullptr,                // 29
-        nullptr,                // 30
-        nullptr,                // 31
-        &motor_Kv_,             // 32
-        &motor_R_ohm_,          // 33
-        &motor_I_max_,          // 34
-        &volts_limit_,          // 35
-        &est_motor_amps_,       // 36
-        &est_motor_torque_,     // 37
-        &motor_redline_start_,  // 38
-        &motor_redline_end_,    // 39
-        &motor_l_,              // 40
+        &drive_mode_,                       // 0
+        &drive_phase_pwm_,                  // 1
+        &drive_phase_volts_,                // 2
+        &drive_spin_pwm_,                   // 3
+        &drive_spin_volts_,                 // 4
+        &drive_brake_,                      // 5
+        &drive_coast_,                      // 6
+        &drive_angle_offset_,               // 7
+        &drive_pwm_,                        // 8
+        &drive_volts_,                      // 9
+        &mech_lead_angle_,                  // 10
+        &obs_supply_volts_,                 // 11
+        &obs_angle_,                        // 12
+        &obs_velocity_,                     // 13
+        &motor_pole_pairs_,                 // 14
+        &motor_emf_shape_,                  // 15
+        &permute_wires_,                    // 16
+        &calibration_angle_,                // 17
+        &lead_time_,                        // 18
+        &commutation_hz_,                   // 19
+        &phase_angle_,                      // 20
+        &drive_volts_addition_,             // 21
+        &angle_adjust_enable_,              // 22
+        &motor_emf_calc_,                   // 23
+        &angle_adjustment_,                 // 24
+        &angle_adjust_max_,                 // 25
+        &angle_adjust_kp_,                  // 26
+        &angle_adjust_ki_,                  // 27
+        nullptr,                            // 28
+        nullptr,                            // 29
+        nullptr,                            // 30
+        nullptr,                            // 31
+        &motor_Kv_,                         // 32
+        &motor_R_ohm_,                      // 33
+        &motor_I_max_,                      // 34
+        &volts_limit_,                      // 35
+        &est_motor_amps_,                   // 36
+        &est_motor_torque_,                 // 37
+        &motor_redline_start_,              // 38
+        &motor_redline_end_,                // 39
+        &motor_l_,                          // 40
         &derate_,                           // 41
         &motor_i_soft_start_,               // 42 
         &motor_i_soft_end_,                 // 43 
@@ -227,44 +222,44 @@ class BrushlessDriveClient: public ClientAbstract{
     }
 
   private:
-    static const uint8_t kSubDriveMode        = 0;
-    static const uint8_t kSubDrivePhasePwm    = 1;
-    static const uint8_t kSubDrivePhaseVolts  = 2;
-    static const uint8_t kSubDriveSpinPwm     = 3;
-    static const uint8_t kSubDriveSpinVolts   = 4;
-    static const uint8_t kSubDriveBrake       = 5;
-    static const uint8_t kSubDriveCoast       = 6;
-    static const uint8_t kSubDriveAngleOffset = 7;
-    static const uint8_t kSubDrivePwm         = 8;
-    static const uint8_t kSubDriveVolts       = 9;
-    static const uint8_t kSubMechLeadAngle    = 10;
-    static const uint8_t kSubObsSupplyVolts   = 11;
-    static const uint8_t kSubObsAngle         = 12;
-    static const uint8_t kSubObsVelocity      = 13;
-    static const uint8_t kSubMotorPolePairs   = 14;
-    static const uint8_t kSubMotorEmfShape    = 15;
-    static const uint8_t kSubPermuteWires     = 16;
-    static const uint8_t kSubOCalibrationAngle= 17;
-    static const uint8_t kSubLeadTime         = 18;
-    static const uint8_t kSubCommutationHz    = 19;
-    static const uint8_t kSubPhaseAngle       = 20;
-    static const uint8_t kSubDriveVoltsAddition = 21;
-    static const uint8_t kSubAngleAdjustEnable  = 22;
-    static const uint8_t kSubMotorEmfCalc       = 23;
-    static const uint8_t kSubAngleAdjustment    = 24;
-    static const uint8_t kSubAngleAdjustMax     = 25;
-    static const uint8_t kSubAngleAdjustKp      = 26;
-    static const uint8_t kSubAngleAdjustKi      = 27;
-    static const uint8_t kSubMotorKv          = 32;
-    static const uint8_t kSubMotorROhm        = 33;
-    static const uint8_t kSubMotorIMax        = 34;
-    static const uint8_t kSubVoltsLimit       = 35;
-    static const uint8_t kSubEstMotorAmps     = 36;
-    static const uint8_t kSubEstMotorTorque   = 37;
-    static const uint8_t kSubMotorRedlineStart= 38;
-    static const uint8_t kSubMotorRedlineEnd  = 39;
-    static const uint8_t kSubMotorL           = 40;
-    static const uint8_t kSubDerate           = 41;
+    static const uint8_t kSubDriveMode                  = 0;
+    static const uint8_t kSubDrivePhasePwm              = 1;
+    static const uint8_t kSubDrivePhaseVolts            = 2;
+    static const uint8_t kSubDriveSpinPwm               = 3;
+    static const uint8_t kSubDriveSpinVolts             = 4;
+    static const uint8_t kSubDriveBrake                 = 5;
+    static const uint8_t kSubDriveCoast                 = 6;
+    static const uint8_t kSubDriveAngleOffset           = 7;
+    static const uint8_t kSubDrivePwm                   = 8;
+    static const uint8_t kSubDriveVolts                 = 9;
+    static const uint8_t kSubMechLeadAngle              = 10;
+    static const uint8_t kSubObsSupplyVolts             = 11;
+    static const uint8_t kSubObsAngle                   = 12;
+    static const uint8_t kSubObsVelocity                = 13;
+    static const uint8_t kSubMotorPolePairs             = 14;
+    static const uint8_t kSubMotorEmfShape              = 15;
+    static const uint8_t kSubPermuteWires               = 16;
+    static const uint8_t kSubOCalibrationAngle          = 17;
+    static const uint8_t kSubLeadTime                   = 18;
+    static const uint8_t kSubCommutationHz              = 19;
+    static const uint8_t kSubPhaseAngle                 = 20;
+    static const uint8_t kSubDriveVoltsAddition         = 21;
+    static const uint8_t kSubAngleAdjustEnable          = 22;
+    static const uint8_t kSubMotorEmfCalc               = 23;
+    static const uint8_t kSubAngleAdjustment            = 24;
+    static const uint8_t kSubAngleAdjustMax             = 25;
+    static const uint8_t kSubAngleAdjustKp              = 26;
+    static const uint8_t kSubAngleAdjustKi              = 27;
+    static const uint8_t kSubMotorKv                    = 32;
+    static const uint8_t kSubMotorROhm                  = 33;
+    static const uint8_t kSubMotorIMax                  = 34;
+    static const uint8_t kSubVoltsLimit                 = 35;
+    static const uint8_t kSubEstMotorAmps               = 36;
+    static const uint8_t kSubEstMotorTorque             = 37;
+    static const uint8_t kSubMotorRedlineStart          = 38;
+    static const uint8_t kSubMotorRedlineEnd            = 39;
+    static const uint8_t kSubMotorL                     = 40;
+    static const uint8_t kSubDerate                     = 41;
     static const uint8_t kSubMotorISoftStart            = 42;
     static const uint8_t kSubMotorISoftEnd              = 43;
     static const uint8_t kSubEmf                        = 44;
