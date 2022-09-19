@@ -10,7 +10,7 @@
   Name: persistent_memory_client.hpp
   Last update: 4/12/2019 by Matthew Piccoli
   Author: Matthew Piccoli
-  Contributors: Raphael Van Hoffelen
+  Contributors: Ben Quan, Raphael Van Hoffelen
 */
 
 #ifndef PERSISTENT_MEMORY_CLIENT_HPP_
