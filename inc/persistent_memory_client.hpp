@@ -8,7 +8,7 @@
 
 /*
   Name: persistent_memory_client.hpp
-  Last update: 4/12/2019 by Matthew Piccoli
+  Last update: 9/19/2022 by Ben Quan 
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
