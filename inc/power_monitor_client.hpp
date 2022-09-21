@@ -57,7 +57,6 @@ class PowerMonitorClient: public ClientAbstract{
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      // static const uint8_t kEntryLength = kSubAmpsBias+1;
       static const uint8_t kEntryLength = kSubVrefRaw+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &volts_,        // 0
