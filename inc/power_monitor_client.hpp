@@ -35,8 +35,7 @@ class PowerMonitorClient: public ClientAbstract{
       amps_raw_(      kTypePowerMonitor, obj_idn, kSubAmpsRaw),
       volts_gain_(    kTypePowerMonitor, obj_idn, kSubVoltsGain),
       amps_gain_(     kTypePowerMonitor, obj_idn, kSubAmpsGain),
-      amps_bias_(     kTypePowerMonitor, obj_idn, kSubAmpsBias),
-      vref_raw_(      kTypePowerMonitor, obj_idn, kSubVrefRaw)
+      amps_bias_(     kTypePowerMonitor, obj_idn, kSubAmpsBias)
       {};
 
     // Client Entries
@@ -53,11 +52,10 @@ class PowerMonitorClient: public ClientAbstract{
     ClientEntry<float>      volts_gain_;
     ClientEntry<float>      amps_gain_;
     ClientEntry<float>      amps_bias_;
-    ClientEntry<uint16_t>   vref_raw_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubVrefRaw+1;
+      static const uint8_t kEntryLength = kSubAmpsBias+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &volts_,        // 0
         &amps_,         // 1
@@ -70,8 +68,7 @@ class PowerMonitorClient: public ClientAbstract{
         &amps_raw_,     // 8
         &volts_gain_,   // 9
         &amps_gain_,    // 10
-        &amps_bias_,    // 11
-        &vref_raw_      // 12
+        &amps_bias_    // 11
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -90,7 +87,6 @@ class PowerMonitorClient: public ClientAbstract{
     static const uint8_t kSubVoltsGain    =  9;
     static const uint8_t kSubAmpsGain     = 10;
     static const uint8_t kSubAmpsBias     = 11;
-    static const uint8_t kSubVrefRaw      = 12;
 };
 
 #endif /* POWER_MONITOR_CLIENT_HPP_ */
