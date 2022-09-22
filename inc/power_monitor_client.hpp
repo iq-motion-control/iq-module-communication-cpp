@@ -53,7 +53,7 @@ class PowerMonitorClient: public ClientAbstract{
     ClientEntry<float>      volts_gain_;
     ClientEntry<float>      amps_gain_;
     ClientEntry<float>      amps_bias_;
-    ClientEntry<float>      vref_raw_;
+    ClientEntry<uint16_t>   vref_raw_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {

@@ -37,8 +37,8 @@ class HobbyInputClient: public ClientAbstract{
     ClientEntry<uint8_t>    allowed_protocols_;
     ClientEntry<uint8_t>    protocol_;
     ClientEntry<uint8_t>    calibrated_protocol_;
-    ClientEntry<uint8_t>    calibrated_high_ticks_us_;
-    ClientEntry<uint8_t>    calibrated_low_ticks_us_;
+    ClientEntry<uint32_t>   calibrated_high_ticks_us_;
+    ClientEntry<uint32_t>   calibrated_low_ticks_us_;
     ClientEntryVoid         reset_calibration_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)

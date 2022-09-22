@@ -34,8 +34,8 @@ class PowerMonitorClient: public ClientAbstract{
     // Control commands
     ClientEntryVoid       erase_;
     ClientEntryVoid       revert_to_default_;
-    ClientEntry<int32_t>  format_key_1_;
-    ClientEntry<int32_t>  format_key_2_;
+    ClientEntry<uint32_t>  format_key_1_;
+    ClientEntry<uint32_t>  format_key_2_;
 
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)

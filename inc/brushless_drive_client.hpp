@@ -84,7 +84,6 @@ class BrushlessDriveClient: public ClientAbstract{
       {};
 
     // Client Entries
-    // Drive values
     ClientEntry<uint8_t>    drive_mode_;
     ClientEntry<float>      drive_phase_pwm_;
     ClientEntry<float>      drive_phase_volts_;
@@ -96,19 +95,15 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      drive_pwm_;
     ClientEntry<float>      drive_volts_;
     ClientEntry<float>      mech_lead_angle_;
-    // Measurements
     ClientEntry<float>      obs_supply_volts_;
     ClientEntry<float>      obs_angle_;
     ClientEntry<float>      obs_velocity_;
-    // Motor parameters
     ClientEntry<uint16_t>   motor_pole_pairs_;
     ClientEntry<uint8_t>    motor_emf_shape_;
-    // Drive configuration
     ClientEntry<uint8_t>    permute_wires_;
     ClientEntry<float>      calibration_angle_;
     ClientEntry<float>      lead_time_;
     ClientEntry<uint32_t>   commutation_hz_;
-    // Fixed phase angle
     ClientEntry<float>      phase_angle_;
     ClientEntry<float>      drive_volts_addition_;
     ClientEntry<uint8_t>    angle_adjust_enable_; 
@@ -117,19 +112,16 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      angle_adjust_max_;    
     ClientEntry<float>      angle_adjust_kp_;     
     ClientEntry<float>      angle_adjust_ki_;        
-    // Motor parameter details
     ClientEntry<float>      motor_Kv_;
     ClientEntry<float>      motor_R_ohm_;
     ClientEntry<float>      motor_I_max_;
     ClientEntry<float>      volts_limit_;
     ClientEntry<float>      est_motor_amps_;
     ClientEntry<float>      est_motor_torque_;
-    // Safety
     ClientEntry<float>      motor_redline_start_;
     ClientEntry<float>      motor_redline_end_;
     ClientEntry<float>      motor_l_;
     ClientEntry<int32_t>    derate_;
-
     ClientEntry<float>      motor_i_soft_start_;
     ClientEntry<float>      motor_i_soft_end_;
     ClientEntry<float>      emf_;
