@@ -154,9 +154,9 @@ float getVolts() {
 }
 
 float getVoltInputLow() {
-    powerSafety.low1_.get(com);
+    powerSafety.volt_input_low_.get(com);
     sendMessageAndProcessReply();
-    return powerSafety.low1_.get_reply();
+    return powerSafety.volt_input_low_.get_reply();
 }
 
 uint8_t getTimeoutSongOption() {

@@ -8,7 +8,7 @@
 
 /*
   Name: power_safety_client.hpp
-  Last update: 2023/04/12 by Ben Quan
+  Last update: 2023/04/24 by Ben Quan
   Author: Ben Quan
   Contributors:
 */
@@ -27,54 +27,54 @@ class PowerSafetyClient : public ClientAbstract {
           fault_now_(kTypePowerSafety, obj_idn, kSubFaultNow),
           fault_ever_(kTypePowerSafety, obj_idn, kSubFaultEver),
           fault_latching_(kTypePowerSafety, obj_idn, kSubFaultLatching),
-          low1_(kTypePowerSafety, obj_idn, kSubVoltInputLow),
-          high1_(kTypePowerSafety, obj_idn, kSubVoltInputHigh),
-          low2_(kTypePowerSafety, obj_idn, kSubVrefIntLow),
-          high2_(kTypePowerSafety, obj_idn, kSubVrefIntHigh),
-          low3_(kTypePowerSafety, obj_idn, kSubCurrentInputLow),
-          high3_(kTypePowerSafety, obj_idn, kSubCurrentInputHigh),
-          low4_(kTypePowerSafety, obj_idn, kSubMotorCurrentLow),
-          high4_(kTypePowerSafety, obj_idn, kSubMotorCurrentHigh),
-          low5_(kTypePowerSafety, obj_idn, kSubTemperatureUcLow),
-          high5_(kTypePowerSafety, obj_idn, kSubTemperatureUcHigh),
-          low6_(kTypePowerSafety, obj_idn, kSubTemperatureCoilLow),
-          high6_(kTypePowerSafety, obj_idn, kSubTemperatureCoilHigh){};
+          volt_input_low_(kTypePowerSafety, obj_idn, kSubVoltInputLow),
+          volt_input_high_(kTypePowerSafety, obj_idn, kSubVoltInputHigh),
+          vref_int_low_(kTypePowerSafety, obj_idn, kSubVrefIntLow),
+          vref_int_high_(kTypePowerSafety, obj_idn, kSubVrefIntHigh),
+          current_input_low_(kTypePowerSafety, obj_idn, kSubCurrentInputLow),
+          current_input_high_(kTypePowerSafety, obj_idn, kSubCurrentInputHigh),
+          motor_current_low_(kTypePowerSafety, obj_idn, kSubMotorCurrentLow),
+          motor_current_high_(kTypePowerSafety, obj_idn, kSubMotorCurrentHigh),
+          temperature_uc_low_(kTypePowerSafety, obj_idn, kSubTemperatureUcLow),
+          temperature_uc_high_(kTypePowerSafety, obj_idn, kSubTemperatureUcHigh),
+          temperature_coil_low_(kTypePowerSafety, obj_idn, kSubTemperatureCoilLow),
+          temperature_coil_high_(kTypePowerSafety, obj_idn, kSubTemperatureCoilHigh){};
 
     // Client Entries
     ClientEntry<float> fault_now_;
     ClientEntry<float> fault_ever_;
     ClientEntry<float> fault_latching_;
-    ClientEntry<float> low1_;
-    ClientEntry<float> high1_;
-    ClientEntry<float> low2_;
-    ClientEntry<float> high2_;
-    ClientEntry<float> low3_;
-    ClientEntry<float> high3_;
-    ClientEntry<float> low4_;
-    ClientEntry<float> high4_;
-    ClientEntry<float> low5_;
-    ClientEntry<float> high5_;
-    ClientEntry<float> low6_;
-    ClientEntry<float> high6_;
+    ClientEntry<float> volt_input_low_;
+    ClientEntry<float> volt_input_high_;
+    ClientEntry<float> vref_int_low_;
+    ClientEntry<float> vref_int_high_;
+    ClientEntry<float> current_input_low_;
+    ClientEntry<float> current_input_high_;
+    ClientEntry<float> motor_current_low_;
+    ClientEntry<float> motor_current_high_;
+    ClientEntry<float> temperature_uc_low_;
+    ClientEntry<float> temperature_uc_high_;
+    ClientEntry<float> temperature_coil_low_;
+    ClientEntry<float> temperature_coil_high_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
         static const uint8_t kEntryLength              = kSubTemperatureCoilHigh + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
-            &fault_now_,       // 0
-            &fault_ever_,      // 1
-            &fault_latching_,  // 2
-            &low1_,            // 3
-            &high1_,           // 4
-            &low2_,            // 5
-            &high2_,           // 6
-            &low3_,            // 7
-            &high3_,           // 8
-            &low4_,            // 9
-            &high4_,           // 10
-            &low5_,            // 11
-            &high5_,           // 12
-            &low6_,            // 13
-            &high6_,           // 14
+            &fault_now_,              // 0
+            &fault_ever_,             // 1
+            &fault_latching_,         // 2
+            &volt_input_low_,         // 3
+            &volt_input_high_,        // 4
+            &vref_int_low_,           // 5
+            &vref_int_high_,          // 6
+            &current_input_low_,      // 7
+            &current_input_high_,     // 8
+            &motor_current_low_,      // 9
+            &motor_current_high_,     // 10
+            &temperature_uc_low_,     // 11
+            &temperature_uc_high_,    // 12
+            &temperature_coil_low_,   // 13
+            &temperature_coil_high_,  // 14
         };
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
