@@ -1,0 +1,8 @@
+SRC_FILES=.\fortiq_test.cpp ..\src\generic_interface.cpp ..\src\byte_queue.c ..\src\crc_helper.c ..\src\packet_finder.c 
+INC_PATH=..\inc 
+OUT_PATH=fortiq_test.exe
+
+all:
+	g++ -I${INC_PATH} -o${OUT_PATH} ${SRC_FILES}
+
+	
