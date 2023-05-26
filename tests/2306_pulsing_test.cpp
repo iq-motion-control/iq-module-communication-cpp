@@ -183,6 +183,12 @@ uint32_t getUid1() {
     return systemControl.uid1_.get_reply();
 }
 
+uint32_t getControlFlags() {
+    systemControl.control_flags_.get(com);
+    sendMessageAndProcessReply();
+    return systemControl.control_flags_.get_reply();
+}
+
 float getTemp() {
     temperatureEstimator.temp_.get(com);
     sendMessageAndProcessReply();
@@ -267,6 +273,9 @@ int main() {
 
     uint32_t uid1 = getUid1();
     cout << "uid1: " << to_string(uid1) << endl;
+
+    uint32_t controlFlags = getControlFlags();
+    cout << "control flags: " << to_string(controlFlags) << endl;
 
     // float temp = getTemp();
     // cout << "temp: " << to_string(temp) << endl;
