@@ -8,7 +8,7 @@
 
 /*
   Name: brushless_drive_client.hpp
-  Last update: 09/16/2022 by Ben Quan
+  Last update: 08/14/2023 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
