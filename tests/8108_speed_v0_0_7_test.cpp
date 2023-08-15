@@ -106,6 +106,12 @@ uint8_t getDriveMode() {
     return brushlessDrive.drive_mode_.get_reply();
 }
 
+float getVMaxStart() {
+    brushlessDrive.v_max_start_.get(com);
+    sendMessageAndProcessReply();
+    return brushlessDrive.v_max_start_.get_reply();
+}
+
 // Sends the command to motor to get Voltage
 float getArmThrottleUpperLimit() {
     armingHandler.arm_throttle_upper_limit_.get(com);
@@ -191,6 +197,9 @@ int main() {
 
     uint8_t driveMode = getDriveMode();
     cout << "drive mode: " << to_string(driveMode) << endl;
+
+    float vMaxStart = getVMaxStart();
+    cout << "v max start: " << to_string(vMaxStart) << endl;
 
     float armThrottleUpperLimit = getArmThrottleUpperLimit();
     cout << "arm throttle upper limit: " << to_string(armThrottleUpperLimit) << endl;
