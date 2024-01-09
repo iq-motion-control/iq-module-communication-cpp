@@ -15,8 +15,8 @@
 
 // http://xkcd.com/1421
 
-#include "packet_finder.h"
-#include "crc_helper.h"
+#include "../inc/packet_finder.h"
+#include "../inc/crc_helper.h"
 #include "string.h"
 
 //#define DEBUG
@@ -50,7 +50,7 @@ void InitPacketFinder(struct PacketFinder *pf, struct ByteQueue *bq) {
   pf->packet_start_index = 0; // index of length byte in the buffer, type and data follow
   pf->received_length = 0;
   pf->packet_indices = bq;
-  
+
   // circular buffer in storage array 'buffer', size 'PACKET_BUFFER_SIZE'
   pf->start_data = pf->buffer;   // pointer to first data byte
   pf->end_data = pf->buffer;     // pointer to byte following last data byte
@@ -58,31 +58,31 @@ void InitPacketFinder(struct PacketFinder *pf, struct ByteQueue *bq) {
 
 
 int8_t PutBytes(struct PacketFinder *pf, const uint8_t *bytes, uint16_t bytes_length) {
-  
+
   // flush any bytes in parser that are no longer needed
   FlushUnusedBytes(pf);
-   
+
   ///////////////////////////////////////////////////
   // copy new data to buffer
-  
+
   int8_t buffer_status = BUFFER_OVERFLOW; // put failure, data loss
-  
+
   // if end_data comes before start_data, the buffer is wrapped around
   //   and the available storage is guarenteed continuous
   if(pf->end_data < pf->start_data) {
     uint16_t space = pf->start_data - pf->end_data - 1; // space available
-    
+
     uint16_t copy_size = space;                         // calculate copy_size
     if(copy_size > bytes_length)
       copy_size = bytes_length;
-    
+
     memcpy(pf->end_data, bytes, copy_size);   // do copy
     pf->end_data += copy_size;
-    
+
     if(copy_size == bytes_length)                       // check for data loss
       buffer_status = SUCCESS; // success
   }
-  
+
   // otherwise available storage might be broken into two pieces
   else {
     // if first data byte is occupied, last data byte must not be filled
@@ -122,14 +122,14 @@ int8_t PutBytes(struct PacketFinder *pf, const uint8_t *bytes, uint16_t bytes_le
     if(first_half + second_half == bytes_length)
       buffer_status = SUCCESS; // success
   }
-   
-   
+
+
   ///////////////////////////////////////////////////
   // run parser to exhaustion
-  
+
   uint16_t end_data_index = pf->end_data - pf->buffer;
   while( pf->parse_index != end_data_index) {      // parser incrementing
-  
+
     switch(pf->state) {
 
       case kStart:
@@ -144,7 +144,7 @@ int8_t PutBytes(struct PacketFinder *pf, const uint8_t *bytes, uint16_t bytes_le
 
       case kLen:
         pf->packet_start_index = pf->parse_index;
-      
+
         // if length is reasonable
         if(pf->buffer[pf->parse_index] <= kMaxPacketDataSize) {
           // store index location, store length, start CRC calculation
@@ -163,7 +163,7 @@ int8_t PutBytes(struct PacketFinder *pf, const uint8_t *bytes, uint16_t bytes_le
 
       case kType:
         pf->expected_crc = ByteUpdateCrc(pf->expected_crc, pf->buffer[pf->parse_index]);
-        
+
         if(pf->received_length > 0)
           pf->state = kData;
         else
@@ -221,7 +221,7 @@ int8_t PutBytes(struct PacketFinder *pf, const uint8_t *bytes, uint16_t bytes_le
 
 
 int8_t PeekPacket(struct PacketFinder *pf, uint8_t **packet, uint8_t *length) {
-    
+
   if(!IsEmptyBQ(pf->packet_indices)) {
 
     // get return index and length
@@ -230,7 +230,7 @@ int8_t PeekPacket(struct PacketFinder *pf, uint8_t **packet, uint8_t *length) {
     if(return_index >= PACKET_BUFFER_SIZE)
       return_index = 0;
     *length = pf->buffer[start_index] + 1;
-    
+
     #ifdef DEBUG
     printf("Peek: ");
     PrintFromBuffer(pf, return_index, *length);
@@ -241,7 +241,7 @@ int8_t PeekPacket(struct PacketFinder *pf, uint8_t **packet, uint8_t *length) {
     if(return_index + *length < PACKET_BUFFER_SIZE) {
       *packet = &(pf->buffer[return_index]);
     }
-    
+
     // else copy to out_buffer and return pointer to that
     else {
       uint16_t length_at_end = PACKET_BUFFER_SIZE - return_index;
@@ -249,12 +249,12 @@ int8_t PeekPacket(struct PacketFinder *pf, uint8_t **packet, uint8_t *length) {
       memcpy( &(pf->out_buffer[0]),
                         &(pf->buffer[return_index]),
                         length_at_end);                                         // overflow out would cause a segfault
-                        
-      
+
+
       memcpy( &(pf->out_buffer[length_at_end]),
                         pf->buffer,
                         *length - length_at_end);
-                        
+
       *packet = pf->out_buffer;
     }
     return(1);
@@ -289,7 +289,7 @@ int8_t DropPacket(struct PacketFinder *pf) {
           new_start_index = 0;
         pf->start_data = &(pf->buffer[new_start_index]);
       }
-      
+
       // not contiguous
       else {
         uint16_t length_at_end = PACKET_BUFFER_SIZE - prev_return_index;

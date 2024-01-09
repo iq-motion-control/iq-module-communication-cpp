@@ -16,7 +16,7 @@
 /// A FIFO buffer for uint8 bytes implemented with a fixed size circular buffer.
 /// See header file for usage.
 
-#include "byte_queue.h"
+#include "../inc/byte_queue.h"
 
 
 void InitBQ(struct ByteQueue *p, uint8_t* data, uint16_t data_size) {
@@ -70,7 +70,7 @@ uint8_t GetByteBQ(struct ByteQueue *p) {
     else {
     // otherwise buffer contains data
         // get data at start
-        uint8_t temp_char = *(p->start);      
+        uint8_t temp_char = *(p->start);
         // if start is not at the end of the array, advance start
         if (p->start != p->data + p->data_size - 1) {
             p->start = p->start + 1;

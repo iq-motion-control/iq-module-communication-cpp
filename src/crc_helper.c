@@ -12,7 +12,7 @@
   Contributors: Matthew Piccoli, Raphael Van Hoffelen
 */
 
-#include "crc_helper.h"
+#include "../inc/crc_helper.h"
 
 // Compute CRC word for a byte string.
 uint16_t MakeCrc(const uint8_t *data, uint16_t count) {
