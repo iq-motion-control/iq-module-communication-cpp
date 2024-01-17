@@ -128,6 +128,24 @@ class ClientEntry: public ClientEntryAbstract {
     T value_;
 };
 
+class PackedClientEntry : public ClientEntryAbstract {
+  public:
+    PackedClientEntry(uint8_t type_idn, uint8_t obj_idn, uint8_t sub_idn):
+      ClientEntryAbstract(type_idn, obj_idn, sub_idn)
+    {};
+
+    void set(CommunicationInterface &com, uint8_t * buf, uint8_t data_length) {
+      uint8_t tx_msg[2+data_length]; // must fit outgoing message
+      tx_msg[0] = sub_idn_;
+      tx_msg[1] = (obj_idn_<<2) | kSet; // high six | low two
+      memcpy(&tx_msg[2], buf, data_length);
+      com.SendPacket(type_idn_, tx_msg, 2+data_length);
+    }
+
+    void Reply(const uint8_t* data, uint8_t len) {
+    };
+};
+
 class ClientAbstract{
   public:
     ClientAbstract(uint8_t type_idn, uint8_t obj_idn):
