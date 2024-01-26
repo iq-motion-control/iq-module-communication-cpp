@@ -18,29 +18,39 @@
 
 #include "client_communication.hpp"
 
+#define MAX_CONTROL_VALUES_PER_IFCI 16
+
 const uint8_t kTypeIQUartFlightControllerInterface = 88;
 
+/**
+ * @brief A struct that holds the data from a received telemetry packet
+ * 
+ */
 struct IFCITelemetryData {
-    int16_t mcu_temp;  // TODO add units
-    int16_t coil_temp;
-    int16_t voltage;
-    int16_t current;
-    int16_t consumption;
-    int16_t speed;
-    uint32_t uptime;
+    int16_t mcu_temp;  //centi ℃
+    int16_t coil_temp; //centi ℃
+    int16_t voltage;   //cV
+    int16_t current;   //cA
+    int16_t consumption; //mAh
+    int16_t speed;  //rad/s
+    uint32_t uptime; //s
 };
 
+/**
+ * @brief A struct that can be used to more easily send an IFCI packed command message
+ * 
+ */
 struct IFCIPackedMessage { 
-  uint16_t commands[16];
-  uint8_t telem_byte;
-  uint8_t num_cvs;
+  uint16_t commands[MAX_CONTROL_VALUES_PER_IFCI]; //An array to hold all control values
+  uint8_t telem_byte; //The module ID to send back its telemetry
+  uint8_t num_cvs;  //The number of control values being sent in this command
 };
 
 class IQUartFlightControllerInterfaceClient : public ClientAbstract {
    public:
     IQUartFlightControllerInterfaceClient(uint8_t obj_idn)
         : ClientAbstract(kTypeIQUartFlightControllerInterface, obj_idn),
-          packed_command(kTypeIQUartFlightControllerInterface, obj_idn, 0),
+          packed_command(kTypeIQUartFlightControllerInterface, obj_idn, kSubPackedCommand),
           telemetry_(kTypeIQUartFlightControllerInterface, obj_idn, kSubTelemetry),
           throttle_cvi_(kTypeIQUartFlightControllerInterface, obj_idn, kSubThrottleCvi),
           x_cvi_(kTypeIQUartFlightControllerInterface, obj_idn, kSubXCvi),
@@ -56,7 +66,7 @@ class IQUartFlightControllerInterfaceClient : public ClientAbstract {
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
         static const uint8_t kEntryLength              = kSubYCvi + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
-            &packed_command,         // 0
+            &packed_command, // 0
             &telemetry_,     // 1
             &throttle_cvi_,  // 2
             &x_cvi_,         // 3
@@ -76,10 +86,11 @@ class IQUartFlightControllerInterfaceClient : public ClientAbstract {
     }
 
    private:
-    static const uint8_t kSubTelemetry   = 1;
-    static const uint8_t kSubThrottleCvi = 2;
-    static const uint8_t kSubXCvi        = 3;
-    static const uint8_t kSubYCvi        = 4;
+    static const uint8_t kSubPackedCommand   = 0;
+    static const uint8_t kSubTelemetry       = 1;
+    static const uint8_t kSubThrottleCvi     = 2;
+    static const uint8_t kSubXCvi            = 3;
+    static const uint8_t kSubYCvi            = 4;
 };
 
 #endif /* IQUART_FLIGHT_CONTROLLER_INTERFACE_CLIENT_HPP_ */
