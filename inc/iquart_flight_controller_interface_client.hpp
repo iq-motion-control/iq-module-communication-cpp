@@ -85,15 +85,15 @@ class IQUartFlightControllerInterfaceClient : public ClientAbstract {
      * @param output_data A pointer to an array of bytes that will store the data
      * @param output_data_length The length of the data stored in the output_data array
      */
-    void PackageIfciCommandsForTransmission(IFCIPackedMessage ifci_commands, uint8_t * output_data, uint8_t * output_data_length){      
+    void PackageIfciCommandsForTransmission(IFCIPackedMessage * ifci_commands, uint8_t * output_data, uint8_t * output_data_length){      
       //Copy the CV bytes
-      memcpy(output_data, ifci_commands.commands, ifci_commands.num_cvs * 2);
+      memcpy(output_data, ifci_commands->commands, ifci_commands->num_cvs * 2);
 
       //Add the telem byte
-      output_data[ifci_commands.num_cvs * 2] = ifci_commands.telem_byte;
+      output_data[ifci_commands->num_cvs * 2] = ifci_commands->telem_byte;
 
       //Set the output data length
-      *output_data_length = ifci_commands.num_cvs * 2 + 1;
+      *output_data_length = ifci_commands->num_cvs * 2 + 1;
     }
 
    private:
