@@ -26,7 +26,7 @@ const uint8_t kTypeIQUartFlightControllerInterface = 88;
  * @brief A struct that holds the data from a received telemetry packet
  * 
  */
-struct IFCITelemetryData {
+struct __attribute__ ((__packed__)) IFCITelemetryData{
     int16_t mcu_temp;  //centi ℃
     int16_t coil_temp; //centi ℃
     int16_t voltage;   //cV
@@ -40,7 +40,7 @@ struct IFCITelemetryData {
  * @brief A struct that can be used to more easily send an IFCI packed command message
  * 
  */
-struct IFCIPackedMessage { 
+struct __attribute__ ((__packed__)) IFCIPackedMessage{ 
   uint16_t commands[MAX_CONTROL_VALUES_PER_IFCI]; //An array to hold all control values
   uint8_t telem_byte; //The module ID to send back its telemetry
   uint8_t num_cvs;  //The number of control values being sent in this command
