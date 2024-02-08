@@ -161,8 +161,10 @@ class PackedClientEntry : public ClientEntryAbstract {
     };
 
     void get_reply(uint8_t * output_buf, uint8_t output_len) {
-      is_fresh_ = false;
-      memcpy(output_buf, data_buf_, output_len);
+      if(data_buf_ != nullptr){
+        is_fresh_ = false;
+        memcpy(output_buf, data_buf_, output_len);
+      }
     };
     
     bool IsFresh() {return is_fresh_;};
