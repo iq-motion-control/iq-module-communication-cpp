@@ -48,9 +48,9 @@ struct __attribute__ ((__packed__)) IFCIPackedMessage{
 
 class IQUartFlightControllerInterfaceClient : public ClientAbstract {
    public:
-    IQUartFlightControllerInterfaceClient(uint8_t obj_idn)
+    IQUartFlightControllerInterfaceClient(uint8_t obj_idn, uint8_t * data_buf = nullptr)
         : ClientAbstract(kTypeIQUartFlightControllerInterface, obj_idn),
-          packed_command_(kTypeIQUartFlightControllerInterface, obj_idn, kSubPackedCommand),
+          packed_command_(kTypeIQUartFlightControllerInterface, obj_idn, kSubPackedCommand, data_buf),
           telemetry_(kTypeIQUartFlightControllerInterface, obj_idn, kSubTelemetry),
           throttle_cvi_(kTypeIQUartFlightControllerInterface, obj_idn, kSubThrottleCvi),
           x_cvi_(kTypeIQUartFlightControllerInterface, obj_idn, kSubXCvi),
