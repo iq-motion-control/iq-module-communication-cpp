@@ -151,8 +151,6 @@ class PackedClientEntry : public ClientEntryAbstract {
       com.SendPacket(type_idn_, tx_msg, 2);
     };
 
-    //All ClientEntryAbstract classes need to define a Reply function. In this case, we do not 
-    //support any Gets on a PackedClientEntry, so this doesn't need to do anything besides exist.
     void Reply(const uint8_t* data, uint8_t len) {
       if(data_buf_ != nullptr){
         memcpy(data_buf_, data, len);
