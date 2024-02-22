@@ -131,8 +131,8 @@ class ClientEntry: public ClientEntryAbstract {
 class PackedClientEntry : public ClientEntryAbstract {
   public:
     PackedClientEntry(uint8_t type_idn, uint8_t obj_idn, uint8_t sub_idn, uint8_t * data_buf):
-      data_buf_(data_buf),
-      ClientEntryAbstract(type_idn, obj_idn, sub_idn)
+      ClientEntryAbstract(type_idn, obj_idn, sub_idn),    
+      data_buf_(data_buf)
     {};
 
     //Take in an array of bytes and a length, and ship the bytes out as an IQUART packet
@@ -151,8 +151,6 @@ class PackedClientEntry : public ClientEntryAbstract {
       com.SendPacket(type_idn_, tx_msg, 2);
     };
 
-    //All ClientEntryAbstract classes need to define a Reply function. In this case, we do not 
-    //support any Gets on a PackedClientEntry, so this doesn't need to do anything besides exist.
     void Reply(const uint8_t* data, uint8_t len) {
       if(data_buf_ != nullptr){
         memcpy(data_buf_, data, len);
