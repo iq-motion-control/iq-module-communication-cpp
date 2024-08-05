@@ -20,9 +20,9 @@ class RgbLedClient : public ClientAbstract {
           red_(kTypeRgbLed, obj_idn, kSubRed),
           green_(kTypeRgbLed, obj_idn, kSubGreen),
           blue_(kTypeRgbLed, obj_idn, kSubBlue),
-		  update_color_(kTypeRgbLed, obj_idn, kSubUpdateColor),
-		  strobe_active_(kTypeRgbLed, obj_idn, kSubStrobeActive),
-		  strobe_period_(kTypeRgbLed, obj_idn, kSubStrobePeriod),
+          update_color_(kTypeRgbLed, obj_idn, kSubUpdateColor),
+          strobe_active_(kTypeRgbLed, obj_idn, kSubStrobeActive),
+          strobe_period_(kTypeRgbLed, obj_idn, kSubStrobePeriod),
           strobe_pattern_(kTypeRgbLed, obj_idn, kSubStrobePattern){};
 
     // Client Entries

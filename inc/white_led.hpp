@@ -17,9 +17,9 @@ class WhiteLedClient : public ClientAbstract {
    public:
     WhiteLedClient(uint8_t obj_idn)
         : ClientAbstract(kTypeWhiteLed, obj_idn),
-		  intensity_(kTypeWhiteLed, obj_idn, kSubIntensity),
-		  strobe_active_(kTypeWhiteLed, obj_idn, kSubStrobeActive),
-		  strobe_period_(kTypeWhiteLed, obj_idn, kSubStrobePeriod),
+          intensity_(kTypeWhiteLed, obj_idn, kSubIntensity),
+          strobe_active_(kTypeWhiteLed, obj_idn, kSubStrobeActive),
+          strobe_period_(kTypeWhiteLed, obj_idn, kSubStrobePeriod),
           strobe_pattern_(kTypeWhiteLed, obj_idn, kSubStrobePattern){};
 
     // Client Entries
