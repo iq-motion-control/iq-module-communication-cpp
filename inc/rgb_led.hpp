@@ -51,8 +51,8 @@ class RgbLedClient : public ClientAbstract {
 
    private:
     static const uint8_t kSubRed              = 0;
-    static const uint8_t kSubBlue             = 1;
-    static const uint8_t kSubGreen            = 2;
+    static const uint8_t kSubGreen            = 1;
+    static const uint8_t kSubBlue             = 2;
     static const uint8_t kSubUpdateColor      = 3;
     static const uint8_t kSubStrobeActive     = 4;
     static const uint8_t kSubStrobePeriod     = 5;
