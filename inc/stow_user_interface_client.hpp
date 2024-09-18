@@ -82,3 +82,4 @@ class StowUserInterfaceClient : public ClientAbstract {
 };
 
 #endif /* STOW_USER_INTERFACE_CLIENT_HPP_ */
+
