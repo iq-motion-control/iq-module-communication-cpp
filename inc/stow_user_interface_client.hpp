@@ -56,7 +56,7 @@ class StowUserInterfaceClient : public ClientAbstract {
             &target_angle_,         // 1
             &target_acceleration_,  // 2
             &sample_zero_,          // 3
-            &stow_,    // 4
+            &stow_,                 // 4
             &stow_kp_,              // 5
             &stow_ki_,              // 6
             &stow_kd_,              // 7
