@@ -25,6 +25,7 @@
 #include "../inc/stopping_handler_client.hpp"
 #include "../inc/stow_user_interface_client.hpp"
 #include "../inc/uavcan_node_client.hpp"
+#include "../inc/power_monitor_client.hpp"
 
 using namespace std;
 
@@ -41,9 +42,10 @@ PropellerMotorControlClient propellerMotorControl(0);        // Initialize Prope
 EscPropellerInputParserClient escPropellerInputParser(0);    // Initialize Esc Propeller Input Parser Client
 CoilTemperatureEstimatorClient coilTemperatureEstimator(0);  // Initialize Coil Temperature Estimator Client
 UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client
+PowerMonitorClient powerMonitorClient(0);                    // Initialize Power Monitor Client
 
 // Initialize clientList to make it easier to call ReadMsg for each client
-ClientAbstract *clientList[9] = {&brushlessDrive,
+ClientAbstract *clientList[10] = {&brushlessDrive,
                                  &armingHandler,
                                  &stoppingHandler,
                                  &stowUserInterface,
@@ -51,7 +53,9 @@ ClientAbstract *clientList[9] = {&brushlessDrive,
                                  &propellerMotorControl,
                                  &escPropellerInputParser,
                                  &coilTemperatureEstimator,
-                                 &uavcanNode};
+                                 &uavcanNode,
+                                 &powerMonitorClient
+                                 };
 
 //  Send out any message data we have over the serial interface
 int handleComTx() {
@@ -112,11 +116,31 @@ float getVMaxStart() {
     return brushlessDrive.v_max_start_.get_reply();
 }
 
+uint32_t getDerateLowPassFilterFc() {
+    brushlessDrive.derate_low_pass_filter_fc_.get(com);
+    sendMessageAndProcessReply();
+    return brushlessDrive.derate_low_pass_filter_fc_.get_reply();
+
+}
+
+uint32_t getDerateLowPassFilterFs() {
+    brushlessDrive.derate_low_pass_filter_fs_.get(com);
+    sendMessageAndProcessReply();
+    return brushlessDrive.derate_low_pass_filter_fs_.get_reply();
+
+}
+
 // Sends the command to motor to get Voltage
 float getArmThrottleUpperLimit() {
     armingHandler.arm_throttle_upper_limit_.get(com);
     sendMessageAndProcessReply();
     return armingHandler.arm_throttle_upper_limit_.get_reply();
+}
+
+uint32_t getConsecutiveDisarmingThrottlesToDisarm() {
+    armingHandler.consecutive_disarming_throttles_to_disarm_.get(com);
+    sendMessageAndProcessReply();
+    armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
 }
 
 float getStoppedSpeed() {
@@ -172,6 +196,26 @@ uint32_t getBitRate() {
     return uavcanNode.bit_rate_.get_reply();
 }
 
+uint8_t getArmingByArmingStatus() {
+    uavcanNode.arming_by_arming_status_.get(com);
+    sendMessageAndProcessReply();
+    uavcanNode.arming_by_arming_status_.get_reply();
+
+}
+
+float getVoltsCascaded() {
+    powerMonitorClient.volts_cascaded_.get(com);
+    sendMessageAndProcessReply();
+    powerMonitorClient.volts_cascaded_.get_reply();
+}
+
+uint32_t getVoltsCascadedFilterFc() {
+    powerMonitorClient.volts_cascaded_filter_fc_.get(com);
+    sendMessageAndProcessReply();
+    powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
+}
+
+
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
                          0,              //  must be opened with exclusive-access
@@ -206,8 +250,17 @@ int main() {
     float vMaxStart = getVMaxStart();
     cout << "v max start: " << to_string(vMaxStart) << endl;
 
+    uint32_t derateLowPassFilterFc = getDerateLowPassFilterFc();
+    cout << "derate low pass filter fc: " << to_string(derateLowPassFilterFc) << endl;
+
+    uint32_t derateLowPassFilterFs = getDerateLowPassFilterFs();
+    cout << "derate low pass filter fs: " << to_string(derateLowPassFilterFs) << endl;
+
     float armThrottleUpperLimit = getArmThrottleUpperLimit();
     cout << "arm throttle upper limit: " << to_string(armThrottleUpperLimit) << endl;
+
+    uint32_t consecutiveDisarmingThrottlesToDisarm = getConsecutiveDisarmingThrottlesToDisarm();
+    cout << "consecutive disarming throttles to disarm: " << to_string(consecutiveDisarmingThrottlesToDisarm) << endl;
 
     float stoppedSpeed = getStoppedSpeed();
     cout << "stopped speed: " << to_string(stoppedSpeed) << endl;
@@ -232,6 +285,15 @@ int main() {
 
     uint32_t bitRate = getBitRate();
     cout << "bit rate: " << to_string(bitRate) << endl;
+
+    uint8_t armingByArmingStatus = getArmingByArmingStatus();
+    cout << "arming by arming status: " << to_string(armingByArmingStatus) << endl;
+
+    float volts_cascaded = getVoltsCascaded();
+    cout << "volts cascaded: " << to_string(volts_cascaded) << endl;
+
+    uint32_t volts_cascaded_filter_fc = getVoltsCascadedFilterFc();
+    cout << "volts cascaded filter fc: " << to_string(volts_cascaded_filter_fc) << endl;
 
     cout << "setting Stow now" << endl;
     setStow();
