@@ -137,6 +137,11 @@ float getStowKp() {
     return stowUserInterface.stow_kp_.get_reply();
 }
 
+void setStow() {
+    stowUserInterface.stow_.set(com);
+    sendMessageAndProcessReply();
+}
+
 float getAngleKd() {
     multiTurnAngleControl.angle_Kd_.get(com);
     sendMessageAndProcessReply();
@@ -227,6 +232,9 @@ int main() {
 
     uint32_t bitRate = getBitRate();
     cout << "bit rate: " << to_string(bitRate) << endl;
+
+    cout << "setting Stow now" << endl;
+    setStow();
 
     return 0;
 }
