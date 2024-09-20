@@ -250,11 +250,11 @@ int main() {
     float vMaxStart = getVMaxStart();
     cout << "v max start: " << to_string(vMaxStart) << endl;
 
-    uint32_t derateLowPassFilterFc = getDerateLowPassFilterFc();
-    cout << "derate low pass filter fc: " << to_string(derateLowPassFilterFc) << endl;
+    // uint32_t derateLowPassFilterFc = getDerateLowPassFilterFc();
+    // cout << "derate low pass filter fc: " << to_string(derateLowPassFilterFc) << endl;
 
-    uint32_t derateLowPassFilterFs = getDerateLowPassFilterFs();
-    cout << "derate low pass filter fs: " << to_string(derateLowPassFilterFs) << endl;
+    // uint32_t derateLowPassFilterFs = getDerateLowPassFilterFs();
+    // cout << "derate low pass filter fs: " << to_string(derateLowPassFilterFs) << endl;
 
     float armThrottleUpperLimit = getArmThrottleUpperLimit();
     cout << "arm throttle upper limit: " << to_string(armThrottleUpperLimit) << endl;
