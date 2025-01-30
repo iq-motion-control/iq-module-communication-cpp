@@ -26,6 +26,7 @@
 #include "../inc/stow_user_interface_client.hpp"
 #include "../inc/uavcan_node_client.hpp"
 #include "../inc/power_monitor_client.hpp"
+#include "../inc/throttle_source_manager_client.hpp"
 
 using namespace std;
 
@@ -43,9 +44,10 @@ EscPropellerInputParserClient escPropellerInputParser(0);    // Initialize Esc P
 CoilTemperatureEstimatorClient coilTemperatureEstimator(0);  // Initialize Coil Temperature Estimator Client
 UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client
 PowerMonitorClient powerMonitorClient(0);                    // Initialize Power Monitor Client
+ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client
 
 // Initialize clientList to make it easier to call ReadMsg for each client
-ClientAbstract *clientList[10] = {&brushlessDrive,
+ClientAbstract *clientList[11] = {&brushlessDrive,
                                  &armingHandler,
                                  &stoppingHandler,
                                  &stowUserInterface,
@@ -54,7 +56,8 @@ ClientAbstract *clientList[10] = {&brushlessDrive,
                                  &escPropellerInputParser,
                                  &coilTemperatureEstimator,
                                  &uavcanNode,
-                                 &powerMonitorClient
+                                 &powerMonitorClient,
+                                 &throttleSourceManager
                                  };
 
 //  Send out any message data we have over the serial interface
@@ -215,6 +218,18 @@ uint32_t getVoltsCascadedFilterFc() {
     powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
 }
 
+float getThrottleTimeout() {
+    throttleSourceManager.throttle_timeout_.get(com);
+    sendMessageAndProcessReply();
+    throttleSourceManager.throttle_timeout_.get_reply();
+}
+
+uint8_t getDronecanPriority() {
+    throttleSourceManager.dronecan_priority_.get(com);
+    sendMessageAndProcessReply();
+    throttleSourceManager.dronecan_priority_.get_reply();
+}
+
 
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
@@ -294,6 +309,12 @@ int main() {
 
     uint32_t volts_cascaded_filter_fc = getVoltsCascadedFilterFc();
     cout << "volts cascaded filter fc: " << to_string(volts_cascaded_filter_fc) << endl;
+
+    float throttle_timeout = getThrottleTimeout();
+    cout << "throttle_timeout: " << throttle_timeout << endl;
+
+    float dronecan_priority = getDronecanPriority();
+    cout << "dronecan_priority: " << to_string(dronecan_priority) << endl;
 
     cout << "setting Stow now" << endl;
     setStow();
