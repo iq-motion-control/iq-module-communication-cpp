@@ -230,6 +230,12 @@ uint8_t getDronecanPriority() {
     throttleSourceManager.dronecan_priority_.get_reply();
 }
 
+uint8_t getTelemetryStyle() {
+    uavcanNode.telemetry_style_.get(com);
+    sendMessageAndProcessReply();
+    uavcanNode.telemetry_style_.get_reply();
+}
+
 
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
@@ -315,6 +321,9 @@ int main() {
 
     float dronecan_priority = getDronecanPriority();
     cout << "dronecan_priority: " << to_string(dronecan_priority) << endl;
+
+    uint8_t telemetry_style = getTelemetryStyle();
+    cout << "telemetry_style: " << to_string(telemetry_style) << endl;
 
     cout << "setting Stow now" << endl;
     setStow();
