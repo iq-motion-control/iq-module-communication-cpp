@@ -187,6 +187,12 @@ float getZeroSpinThrottle() {
     return escPropellerInputParser.zero_spin_throttle_.get_reply();
 }
 
+uint8_t getReportTelemetryAsSpeed() {
+    escPropellerInputParser.report_telemetry_as_speed_.get(com);
+    sendMessageAndProcessReply();
+    return escPropellerInputParser.report_telemetry_as_speed_.get_reply();
+}
+
 float getTCoil() {
     coilTemperatureEstimator.t_coil_.get(com);
     sendMessageAndProcessReply();
@@ -300,6 +306,9 @@ int main() {
 
     float zeroSpinThrottle = getZeroSpinThrottle();
     cout << "zero spin throttle: " << to_string(zeroSpinThrottle) << endl;
+
+    uint8_t reportTelemetryAsSpeed = getReportTelemetryAsSpeed();
+    cout << "report telemetry as speed: " << to_string(reportTelemetryAsSpeed) << endl;
 
     float tCoil = getTCoil();
     cout << "t_coil: " << to_string(tCoil) << endl;

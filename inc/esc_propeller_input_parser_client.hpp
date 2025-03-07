@@ -48,7 +48,7 @@ class EscPropellerInputParserClient : public ClientAbstract {
     ClientEntry<uint8_t> flip_negative_;
     ClientEntry<float> zero_spin_throttle_;
     ClientEntry<float> zero_spin_tolerance_;
-    ClientEntry<float> report_telemetry_as_speed_;
+    ClientEntry<uint8_t> report_telemetry_as_speed_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
         static const uint8_t kEntryLength              = kSubReportTelemetryAsSpeed + 1;
