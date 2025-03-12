@@ -8,7 +8,7 @@
 
 /*
     Name: drive_control_interface_client.hpp
-    Last update: 2025-03-11 by Ben Quan
+    Last update: 2025-03-12 by Ben Quan
     Author: Ben Quan
     Contributors:
 */
@@ -31,8 +31,7 @@ class DriveControlInterfaceClient : public ClientAbstract {
             d_current_target_(kTypeDriveControlInterface, obj_idn, kSubDCurrentTarget),
             coast_(kTypeDriveControlInterface, obj_idn, kSubCoast),
             brake_(kTypeDriveControlInterface, obj_idn, kSubBrake),
-            mode_(kTypeDriveControlInterface, obj_idn, kSubMode),
-            equivalent_command_voltage_(kTypeDriveControlInterface, obj_idn, kSubEquivalentCommandVoltage)
+            mode_(kTypeDriveControlInterface, obj_idn, kSubMode)
             {};
 
     // Client Entries
@@ -44,10 +43,9 @@ class DriveControlInterfaceClient : public ClientAbstract {
     ClientEntryVoid coast_;
     ClientEntryVoid brake_;
     ClientEntry<uint8_t> mode_;
-    ClientEntry<float> equivalent_command_voltage_;
     
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength = kSubEquivalentCommandVoltage + 1;
+        static const uint8_t kEntryLength = kSubMode + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &voltage_target_, // 0
             &pwm_target_, // 1
@@ -56,8 +54,7 @@ class DriveControlInterfaceClient : public ClientAbstract {
             &d_current_target_, // 4
             &coast_, // 5
             &brake_, // 6
-            &mode_, // 7
-            &equivalent_command_voltage_, // 8
+            &mode_ // 7
             };
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
@@ -71,7 +68,6 @@ class DriveControlInterfaceClient : public ClientAbstract {
     static const uint8_t kSubCoast = 5;
     static const uint8_t kSubBrake = 6;
     static const uint8_t kSubMode = 7;
-    static const uint8_t kSubEquivalentCommandVoltage = 8;
     
 };
 
