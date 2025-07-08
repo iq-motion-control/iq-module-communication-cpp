@@ -31,7 +31,7 @@
 using namespace std;
 
 HANDLE comPort;                    // Handler for COM port
-TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+TCHAR *pcCommPort = TEXT("COM3");  // Change COM4 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
@@ -143,7 +143,7 @@ float getArmThrottleUpperLimit() {
 uint32_t getConsecutiveDisarmingThrottlesToDisarm() {
     armingHandler.consecutive_disarming_throttles_to_disarm_.get(com);
     sendMessageAndProcessReply();
-    armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
+    return armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
 }
 
 float getStoppedSpeed() {
@@ -208,38 +208,38 @@ uint32_t getBitRate() {
 uint8_t getArmingByArmingStatus() {
     uavcanNode.arming_by_arming_status_.get(com);
     sendMessageAndProcessReply();
-    uavcanNode.arming_by_arming_status_.get_reply();
+    return uavcanNode.arming_by_arming_status_.get_reply();
 
 }
 
 float getVoltsCascaded() {
     powerMonitorClient.volts_cascaded_.get(com);
     sendMessageAndProcessReply();
-    powerMonitorClient.volts_cascaded_.get_reply();
+    return powerMonitorClient.volts_cascaded_.get_reply();
 }
 
 uint32_t getVoltsCascadedFilterFc() {
     powerMonitorClient.volts_cascaded_filter_fc_.get(com);
     sendMessageAndProcessReply();
-    powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
+    return powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
 }
 
 float getThrottleTimeout() {
     throttleSourceManager.throttle_timeout_.get(com);
     sendMessageAndProcessReply();
-    throttleSourceManager.throttle_timeout_.get_reply();
+    return throttleSourceManager.throttle_timeout_.get_reply();
 }
 
 uint8_t getDronecanPriority() {
     throttleSourceManager.dronecan_priority_.get(com);
     sendMessageAndProcessReply();
-    throttleSourceManager.dronecan_priority_.get_reply();
+    return throttleSourceManager.dronecan_priority_.get_reply();
 }
 
 uint8_t getTelemetryStyle() {
     uavcanNode.telemetry_style_.get(com);
     sendMessageAndProcessReply();
-    uavcanNode.telemetry_style_.get_reply();
+    return uavcanNode.telemetry_style_.get_reply();
 }
 
 
@@ -286,8 +286,8 @@ int main() {
     float armThrottleUpperLimit = getArmThrottleUpperLimit();
     cout << "arm throttle upper limit: " << to_string(armThrottleUpperLimit) << endl;
 
-    uint32_t consecutiveDisarmingThrottlesToDisarm = getConsecutiveDisarmingThrottlesToDisarm();
-    cout << "consecutive disarming throttles to disarm: " << to_string(consecutiveDisarmingThrottlesToDisarm) << endl;
+    // uint32_t consecutiveDisarmingThrottlesToDisarm = getConsecutiveDisarmingThrottlesToDisarm();
+    // cout << "consecutive disarming throttles to disarm: " << to_string(consecutiveDisarmingThrottlesToDisarm) << endl;
 
     float stoppedSpeed = getStoppedSpeed();
     cout << "stopped speed: " << to_string(stoppedSpeed) << endl;
