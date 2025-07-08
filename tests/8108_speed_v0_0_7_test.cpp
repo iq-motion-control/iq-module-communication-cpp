@@ -123,14 +123,12 @@ uint32_t getDerateLowPassFilterFc() {
     brushlessDrive.derate_low_pass_filter_fc_.get(com);
     sendMessageAndProcessReply();
     return brushlessDrive.derate_low_pass_filter_fc_.get_reply();
-
 }
 
 uint32_t getDerateLowPassFilterFs() {
     brushlessDrive.derate_low_pass_filter_fs_.get(com);
     sendMessageAndProcessReply();
     return brushlessDrive.derate_low_pass_filter_fs_.get_reply();
-
 }
 
 // Sends the command to motor to get Voltage
@@ -209,7 +207,6 @@ uint8_t getArmingByArmingStatus() {
     uavcanNode.arming_by_arming_status_.get(com);
     sendMessageAndProcessReply();
     return uavcanNode.arming_by_arming_status_.get_reply();
-
 }
 
 float getVoltsCascaded() {
