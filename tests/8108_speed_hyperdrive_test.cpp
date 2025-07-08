@@ -35,7 +35,7 @@
  using namespace std;
  
  HANDLE comPort;                    // Handler for COM port
- TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+ TCHAR *pcCommPort = TEXT("COM3");  // Change COM4 to whichever port your motor is connected to
  GenericInterface com;              // Interface used by com port to communicate with motor
  
  ArmingHandlerClient armingHandler(0);                        // Initialize Arming Handler Client
@@ -128,7 +128,7 @@
  uint32_t getConsecutiveDisarmingThrottlesToDisarm() {
      armingHandler.consecutive_disarming_throttles_to_disarm_.get(com);
      sendMessageAndProcessReply();
-     armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
+     return armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
  }
  
  float getStoppedSpeed() {
@@ -165,62 +165,62 @@
  float getVoltsCascaded() {
      powerMonitorClient.volts_cascaded_.get(com);
      sendMessageAndProcessReply();
-     powerMonitorClient.volts_cascaded_.get_reply();
+     return powerMonitorClient.volts_cascaded_.get_reply();
  }
  
  uint32_t getVoltsCascadedFilterFc() {
      powerMonitorClient.volts_cascaded_filter_fc_.get(com);
      sendMessageAndProcessReply();
-     powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
+     return powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
  }
  
  float getThrottleTimeout() {
      throttleSourceManager.throttle_timeout_.get(com);
      sendMessageAndProcessReply();
-     throttleSourceManager.throttle_timeout_.get_reply();
+     return throttleSourceManager.throttle_timeout_.get_reply();
  }
  
  uint8_t getDronecanPriority() {
      throttleSourceManager.dronecan_priority_.get(com);
      sendMessageAndProcessReply();
-     throttleSourceManager.dronecan_priority_.get_reply();
+     return throttleSourceManager.dronecan_priority_.get_reply();
  }
 
 // Hyperdrive functions
 float getFinalMaxCurrentDerate() {
     currentSafeties.final_max_current_derate_.get(com);
     sendMessageAndProcessReply();
-    currentSafeties.final_max_current_derate_.get_reply();
+    return currentSafeties.final_max_current_derate_.get_reply();
 }
 
 float getVoltageTarget() {
     driveControlInterface.voltage_target_.get(com);
     sendMessageAndProcessReply();
-    driveControlInterface.voltage_target_.get_reply();
+    return driveControlInterface.voltage_target_.get_reply();
 }
 
 float getRotorMagnitude() {
     motorDriver.rotor_magnitude_.get(com);
     sendMessageAndProcessReply();
-    motorDriver.rotor_magnitude_.get_reply();
+    return motorDriver.rotor_magnitude_.get_reply();
 }
 
 float getMechanicalInductance() {
     motorModel.mechanical_inductance_.get(com);
     sendMessageAndProcessReply();
-    motorModel.mechanical_inductance_.get_reply();
+    return motorModel.mechanical_inductance_.get_reply();
 }
 
 float getRotorAngle() {
     rotorAngleGenerator.rotor_angle_.get(com);
     sendMessageAndProcessReply();
-    rotorAngleGenerator.rotor_angle_.get_reply();
+    return rotorAngleGenerator.rotor_angle_.get_reply();
 }
 
 float getQCurrent() {
     voltageTargetGenerator.q_current_.get(com);
     sendMessageAndProcessReply();
-    voltageTargetGenerator.q_current_.get_reply();
+    return voltageTargetGenerator.q_current_.get_reply();
 }
 
  
