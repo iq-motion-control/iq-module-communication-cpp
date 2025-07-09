@@ -31,7 +31,7 @@
 using namespace std;
 
 HANDLE comPort;                    // Handler for COM port
-TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+TCHAR *pcCommPort = TEXT("COM3");  // Change COM3 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
@@ -123,14 +123,12 @@ uint32_t getDerateLowPassFilterFc() {
     brushlessDrive.derate_low_pass_filter_fc_.get(com);
     sendMessageAndProcessReply();
     return brushlessDrive.derate_low_pass_filter_fc_.get_reply();
-
 }
 
 uint32_t getDerateLowPassFilterFs() {
     brushlessDrive.derate_low_pass_filter_fs_.get(com);
     sendMessageAndProcessReply();
     return brushlessDrive.derate_low_pass_filter_fs_.get_reply();
-
 }
 
 // Sends the command to motor to get Voltage
@@ -143,7 +141,7 @@ float getArmThrottleUpperLimit() {
 uint32_t getConsecutiveDisarmingThrottlesToDisarm() {
     armingHandler.consecutive_disarming_throttles_to_disarm_.get(com);
     sendMessageAndProcessReply();
-    armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
+    return armingHandler.consecutive_disarming_throttles_to_disarm_.get_reply();
 }
 
 float getStoppedSpeed() {
@@ -208,38 +206,37 @@ uint32_t getBitRate() {
 uint8_t getArmingByArmingStatus() {
     uavcanNode.arming_by_arming_status_.get(com);
     sendMessageAndProcessReply();
-    uavcanNode.arming_by_arming_status_.get_reply();
-
+    return uavcanNode.arming_by_arming_status_.get_reply();
 }
 
 float getVoltsCascaded() {
     powerMonitorClient.volts_cascaded_.get(com);
     sendMessageAndProcessReply();
-    powerMonitorClient.volts_cascaded_.get_reply();
+    return powerMonitorClient.volts_cascaded_.get_reply();
 }
 
 uint32_t getVoltsCascadedFilterFc() {
     powerMonitorClient.volts_cascaded_filter_fc_.get(com);
     sendMessageAndProcessReply();
-    powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
+    return powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
 }
 
 float getThrottleTimeout() {
     throttleSourceManager.throttle_timeout_.get(com);
     sendMessageAndProcessReply();
-    throttleSourceManager.throttle_timeout_.get_reply();
+    return throttleSourceManager.throttle_timeout_.get_reply();
 }
 
 uint8_t getDronecanPriority() {
     throttleSourceManager.dronecan_priority_.get(com);
     sendMessageAndProcessReply();
-    throttleSourceManager.dronecan_priority_.get_reply();
+    return throttleSourceManager.dronecan_priority_.get_reply();
 }
 
 uint8_t getTelemetryStyle() {
     uavcanNode.telemetry_style_.get(com);
     sendMessageAndProcessReply();
-    uavcanNode.telemetry_style_.get_reply();
+    return uavcanNode.telemetry_style_.get_reply();
 }
 
 
@@ -277,11 +274,11 @@ int main() {
     float vMaxStart = getVMaxStart();
     cout << "v max start: " << to_string(vMaxStart) << endl;
 
-    // uint32_t derateLowPassFilterFc = getDerateLowPassFilterFc();
-    // cout << "derate low pass filter fc: " << to_string(derateLowPassFilterFc) << endl;
+    uint32_t derateLowPassFilterFc = getDerateLowPassFilterFc();
+    cout << "derate low pass filter fc: " << to_string(derateLowPassFilterFc) << endl;
 
-    // uint32_t derateLowPassFilterFs = getDerateLowPassFilterFs();
-    // cout << "derate low pass filter fs: " << to_string(derateLowPassFilterFs) << endl;
+    uint32_t derateLowPassFilterFs = getDerateLowPassFilterFs();
+    cout << "derate low pass filter fs: " << to_string(derateLowPassFilterFs) << endl;
 
     float armThrottleUpperLimit = getArmThrottleUpperLimit();
     cout << "arm throttle upper limit: " << to_string(armThrottleUpperLimit) << endl;

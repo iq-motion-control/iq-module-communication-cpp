@@ -33,7 +33,7 @@
 using namespace std;
 
 HANDLE comPort;                    // Handler for COM port
-TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+TCHAR *pcCommPort = TEXT("COM3");  // Change COM3 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
@@ -166,9 +166,9 @@ uint8_t getTimeoutSongOption() {
 }
 
 uint8_t getPulsingVoltageMode() {
-    pulsingRectangularInputParser.pulsing_voltage_mode_.get(com);
+    pulsingRectangularInputParser.pulsing_scaling_mode_.get(com);
     sendMessageAndProcessReply();
-    return pulsingRectangularInputParser.pulsing_voltage_mode_.get_reply();
+    return pulsingRectangularInputParser.pulsing_scaling_mode_.get_reply();
 }
 
 uint32_t getBaudRate() {
@@ -276,9 +276,6 @@ int main() {
 
     uint32_t controlFlags = getControlFlags();
     cout << "control flags: " << to_string(controlFlags) << endl;
-
-    // float temp = getTemp();
-    // cout << "temp: " << to_string(temp) << endl;
 
     float ucTemp = getUcTemp();
     cout << "uc temp: " << to_string(ucTemp) << endl;
