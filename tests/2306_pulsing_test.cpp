@@ -33,7 +33,7 @@
 using namespace std;
 
 HANDLE comPort;                    // Handler for COM port
-TCHAR *pcCommPort = TEXT("COM3");  // Change COM4 to whichever port your motor is connected to
+TCHAR *pcCommPort = TEXT("COM3");  // Change COM3 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
