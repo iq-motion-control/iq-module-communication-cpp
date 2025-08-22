@@ -1,16 +1,16 @@
 /*
-  Copyright 2024 Vertiq, Inc support@vertiq.co
+    Copyright 2025 Vertiq, Inc support@vertiq.co
 
-  This file is part of the IQ C++ API.
+    This file is part of the IQ C++ API.
 
-  This code is licensed under the MIT license (see LICENSE or https://opensource.org/licenses/MIT for details)
+    This code is licensed under the MIT license (see LICENSE or https://opensource.org/licenses/MIT for details)
 */
 
 /*
-  Name: arming_handler_client.hpp
-  Last update: 2024/09/19 by Ben Quan
-  Author: Ben Quan
-  Contributors:
+    Name: arming_handler_client.hpp
+    Last update: 2025-08-22 by Ben Quan
+    Author: Ben Quan
+    Contributors:
 */
 
 #ifndef ARMING_HANDLER_CLIENT_HPP_
@@ -37,7 +37,9 @@ class ArmingHandlerClient : public ClientAbstract {
           disarm_song_option_(kTypeArmingHandler, obj_idn, kSubDisarmSongOption),
           manual_arming_throttle_source_(kTypeArmingHandler, obj_idn, kSubManualArmingThrottleSource),
           motor_armed_(kTypeArmingHandler, obj_idn, kSubMotorArmed),
-          consecutive_disarming_throttles_to_disarm_(kTypeArmingHandler, obj_idn, kSubConsecutiveDisarmingThrottlesToDisarm){};
+          consecutive_disarming_throttles_to_disarm_(kTypeArmingHandler, obj_idn, kSubConsecutiveDisarmingThrottlesToDisarm),
+          play_arming_song_on_arm_(kTypeArmingHandler, obj_idn, kSubPlayArmingSongOnArm)
+          {};
 
     // Client Entries
     ClientEntry<uint8_t> always_armed_;
@@ -53,24 +55,25 @@ class ArmingHandlerClient : public ClientAbstract {
     ClientEntry<uint8_t> manual_arming_throttle_source_;
     ClientEntry<uint8_t> motor_armed_;
     ClientEntry<uint32_t> consecutive_disarming_throttles_to_disarm_;
+    ClientEntry<uint8_t> play_arming_song_on_arm_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubConsecutiveDisarmingThrottlesToDisarm + 1;
+        static const uint8_t kEntryLength = kSubPlayArmingSongOnArm + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
-            nullptr,                                    // 0
-            &always_armed_,                             // 1
-            &arm_on_throttle_,                          // 2
-            &arm_throttle_upper_limit_,                 // 3
-            &arm_throttle_lower_limit_,                 // 4
-            &disarm_on_throttle_,                       // 5
-            &disarm_throttle_upper_limit_,              // 6
-            &disarm_throttle_lower_limit_,              // 7
-            &consecutive_arming_throttles_to_arm_,      // 8
-            &disarm_behavior_,                          // 9
-            &disarm_song_option_,                       // 10
-            &manual_arming_throttle_source_,            // 11
-            &motor_armed_,                              // 12
-            &consecutive_disarming_throttles_to_disarm_  // 13
+            &always_armed_, // 1
+            &arm_on_throttle_, // 2
+            &arm_throttle_upper_limit_, // 3
+            &arm_throttle_lower_limit_, // 4
+            &disarm_on_throttle_, // 5
+            &disarm_throttle_upper_limit_, // 6
+            &disarm_throttle_lower_limit_, // 7
+            &consecutive_arming_throttles_to_arm_, // 8
+            &disarm_behavior_, // 9
+            &disarm_song_option_, // 10
+            &manual_arming_throttle_source_, // 11
+            &motor_armed_, // 12
+            &consecutive_disarming_throttles_to_disarm_, // 13
+            &play_arming_song_on_arm_, // 14
         };
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
@@ -89,6 +92,7 @@ class ArmingHandlerClient : public ClientAbstract {
     static const uint8_t kSubManualArmingThrottleSource             = 11;
     static const uint8_t kSubMotorArmed                             = 12;
     static const uint8_t kSubConsecutiveDisarmingThrottlesToDisarm  = 13;
+    static const uint8_t kSubPlayArmingSongOnArm                    = 14;
 };
 
 #endif /* ARMING_HANDLER_CLIENT_HPP_ */
