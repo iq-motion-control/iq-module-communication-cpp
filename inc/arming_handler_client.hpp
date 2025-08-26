@@ -93,7 +93,6 @@ class ArmingHandlerClient : public ClientAbstract {
     static const uint8_t kSubMotorArmed                             = 12;
     static const uint8_t kSubConsecutiveDisarmingThrottlesToDisarm  = 13;
     static const uint8_t kSubPlayArmingSongOnArm                    = 14;
-
 };
 
 #endif /* ARMING_HANDLER_CLIENT_HPP_ */
