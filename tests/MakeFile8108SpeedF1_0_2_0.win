@@ -1,0 +1,6 @@
+SRC_FILES=.\test_api_vertiq8108_speed_F1_0_2_0.cpp ..\src\generic_interface.cpp ..\src\byte_queue.c ..\src\crc_helper.c ..\src\packet_finder.c
+INC_PATH=..\inc 
+OUT_PATH=8108_speed_F1_0_2_0_test.exe
+
+all:
+	g++ -I${INC_PATH} -o${OUT_PATH} ${SRC_FILES}
