@@ -12,7 +12,6 @@
 #include <windows.h>
 
 #include <iostream>
-// #include <list>
 
 #include "../inc/brushless_drive_client.hpp"
 #include "../inc/client_communication.cpp"
@@ -23,7 +22,7 @@
 using namespace std;
 
 HANDLE comPort;                    // Handler for COM port
-TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+const TCHAR *pcCommPort = "COM4";  // Change COM4 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
@@ -89,10 +88,20 @@ uint32_t getWarningEnableBitmask() {
     return uavcanNode.warning_enable_bitmask_.get_reply();
 }
 
+void setWarningEnableBitmask(uint32_t newValue) {
+    uavcanNode.warning_enable_bitmask_.set(com, newValue);
+    handleComTx();
+}
+
 uint32_t getErrorEnableBitmask() {
     uavcanNode.error_enable_bitmask_.get(com);
     sendMessageAndProcessReply();
     return uavcanNode.error_enable_bitmask_.get_reply();
+}
+
+void setErrorEnableBitmask(uint32_t newValue) {
+    uavcanNode.error_enable_bitmask_.set(com, newValue);
+    handleComTx();
 }
 
 uint32_t getCriticalEnableBitmask() {
@@ -101,17 +110,26 @@ uint32_t getCriticalEnableBitmask() {
     return uavcanNode.critical_enable_bitmask_.get_reply();
 }
 
+void setCriticalEnableBitmask(uint32_t newValue) {
+    uavcanNode.critical_enable_bitmask_.set(com, newValue);
+    handleComTx();
+}
+
 uint32_t getErrorCountConfiguration() {
     uavcanNode.error_count_configuration_.get(com);
     sendMessageAndProcessReply();
     return uavcanNode.error_count_configuration_.get_reply();
 }
 
+void setErrorCountConfiguration(uint32_t newValue) {
+    uavcanNode.error_count_configuration_.set(com, newValue);
+    handleComTx();
+}
 
 uint8_t getCurrentActiveThrottleSource() {
     throttleSourceManager.current_active_throttle_source_.get(com);
     sendMessageAndProcessReply();
-    throttleSourceManager.current_active_throttle_source_.get_reply();
+    return throttleSourceManager.current_active_throttle_source_.get_reply();
 }
 
 int main() {
@@ -141,24 +159,53 @@ int main() {
     GetCommTimeouts(comPort, &timeouts);
     timeouts.ReadIntervalTimeout = 5;
     SetCommTimeouts(comPort, &timeouts);
+    cout << "\n" << endl;
 
-    cout << "Testing uavcan_node" << endl;
+    cout << "--------Testing uavcan_node--------" << endl;
     uint32_t warningEnableBitmask = getWarningEnableBitmask();
-    cout << "warning_enable_bitmask: " << to_string(warningEnableBitmask) << endl;
+    cout << "default value warning_enable_bitmask: " << to_string(warningEnableBitmask) << endl;
+    uint32_t newWarningEnableBitmaskValue = 6;
+    cout << "setting warning_enable_bitmask: " << to_string(newWarningEnableBitmaskValue) << endl;
+    setWarningEnableBitmask(newWarningEnableBitmaskValue);
+    uint32_t newWarningEnableBitmask = getWarningEnableBitmask();
+    cout << "after setting warning_enable_bitmask: " << to_string(newWarningEnableBitmask) << endl;
+    cout << "\n" << endl;
 
     uint32_t errorEnableBitmask = getErrorEnableBitmask();
-    cout << "error_enable_bitmask: " << to_string(errorEnableBitmask) << endl;
+    cout << "default value error_enable_bitmask: " << to_string(errorEnableBitmask) << endl;
+    uint32_t newErrorEnableBitmaskValue = 2;
+    cout << "setting error_enable_bitmask: " << to_string(newErrorEnableBitmaskValue) << endl;
+    setErrorEnableBitmask(newErrorEnableBitmaskValue);
+    uint32_t newErrorEnableBitmask = getErrorEnableBitmask();
+    cout << "after setting error_enable_bitmask: " << to_string(newErrorEnableBitmask) << endl;
+    cout << "\n" << endl;
 
     uint32_t criticalEnableBitmask = getCriticalEnableBitmask();
-    cout << "critical_enable_bitmask: " << to_string(criticalEnableBitmask) << endl;
+    cout << "default value critical_enable_bitmask: " << to_string(criticalEnableBitmask) << endl;
+    uint32_t newCriticalEnableBitmaskValue = 2;
+    cout << "setting critical_enable_bitmask: " << to_string(newCriticalEnableBitmaskValue) << endl;
+    setCriticalEnableBitmask(newCriticalEnableBitmaskValue);
+    uint32_t newCriticalEnableBitmask = getCriticalEnableBitmask();
+    cout << "after setting critical_enable_bitmask: " << to_string(newCriticalEnableBitmask) << endl;
+    cout << "\n" << endl;
+
 
     uint32_t errorCountConfiguration = getErrorCountConfiguration();
-    cout << "error_count_configuration: " << to_string(errorCountConfiguration) << endl;
+    cout << "default value error_count_configuration: " << to_string(errorCountConfiguration) << endl;
+    uint32_t newErrorCountConfigurationValue = 2;
+    cout << "setting error_count_configuration: " << to_string(newErrorCountConfigurationValue) << endl;
+    setErrorCountConfiguration(newErrorCountConfigurationValue);
+    uint32_t newErrorCountConfiguration = getErrorCountConfiguration();
+    cout << "after setting error_count_configuration: " << to_string(newErrorCountConfiguration) << endl;
+    cout << "\n" << endl;
 
-    cout << "Testing throttle_source_manager" << endl;
+    cout << "-----Testing throttle_source_manager-----" << endl;
     uint8_t currentActiveThrottleSource = getCurrentActiveThrottleSource();
     cout << "current_active_throttle_source: " << to_string(currentActiveThrottleSource) << endl;
+    cout << "\n" << endl;
 
+    cout << "\n" << endl;
+    cout << "--------Testing Complete--------" << endl;
 
     return 0;
 }
