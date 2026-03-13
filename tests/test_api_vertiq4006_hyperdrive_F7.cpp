@@ -1,9 +1,8 @@
 /*
- * This example C++ program uses the Power Monitor client to retrieve the Voltage of a motor.
  * The serial port setup for windows is based on the example provided by microsoft:
  *      https://learn.microsoft.com/en-us/windows/win32/devio/configuring-a-communications-resource
  *
- * Name: 4006_speed_v0_3_0_test.cpp
+ * Name: test_api_vertiq4006_hyperdrive_F7.cpp
  * Last update: 2026/03/13 by Ben Quan
  * Author: Ben Quan
  */
