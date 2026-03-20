@@ -134,10 +134,20 @@ uint8_t getCurrentActiveThrottleSource() {
     return throttleSourceManager.current_active_throttle_source_.get_reply();
 }
 
-uint32_t getTrajectoryQueueLength(){
+uint8_t getTrajectoryQueueLength(){
     multiTurnAngleControl.trajectory_queue_length_.get(com);
     sendMessageAndProcessReply();
     return multiTurnAngleControl.trajectory_queue_length_.get_reply();
+}
+
+uint32_t getFF(){
+    multiTurnAngleControl.ff_.get(com);
+    sendMessageAndProcessReply();
+    return multiTurnAngleControl.ff_.get_reply();
+}
+void setFF(uint32_t newValue) {
+    multiTurnAngleControl.ff_.set(com, newValue);
+    handleComTx();
 }
 
 int main() {
@@ -213,8 +223,17 @@ int main() {
     cout << "\n" << endl;
 
     cout << "-----Testing multi_turn_angle_control-----" << endl;
+    uint32_t ff = getFF();
+    cout << "default value ff: " << to_string(ff) << endl;
+    uint32_t newFFValue = 2;
+    cout << "setting ff: " << to_string(newFFValue) << endl;
+    setFF(newFFValue);
+    uint32_t newFF = getFF();
+    cout << "after setting ff: " << to_string(newFF) << endl;
+    cout << "\n" << endl;
+
     uint8_t trajectoryQueueLength = getTrajectoryQueueLength();
-    cout << "trajectory_queue_length: " << to_string(trajectoryQueueLength) << endl;
+    cout << "default value trajectory_queue_length: " << to_string(trajectoryQueueLength) << endl;
     cout << "\n" << endl;
 
     cout << "\n" << endl;

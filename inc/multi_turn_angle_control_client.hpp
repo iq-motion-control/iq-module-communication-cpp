@@ -100,8 +100,7 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<float> trajectory_linear_acceleration_;
     ClientEntry<float> trajectory_average_speed_;
     ClientEntry<int8_t> trajectory_queue_mode_;
-    // FIXME: this should be uint32_t
-    ClientEntry<int32_t> ff_;
+    ClientEntry<uint32_t> ff_;
     ClientEntryVoid sample_zero_angle_;
     ClientEntry<float> zero_angle_;
     //Additional Velocity
