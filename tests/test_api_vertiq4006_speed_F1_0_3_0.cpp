@@ -15,6 +15,7 @@
 #include "../inc/brushless_drive_client.hpp"
 #include "../inc/client_communication.cpp"
 #include "../inc/generic_interface.hpp"
+#include "../inc/multi_turn_angle_control_client.hpp"
 #include "../inc/uavcan_node_client.hpp"
 #include "../inc/throttle_source_manager_client.hpp"
 
@@ -25,11 +26,13 @@ const TCHAR *pcCommPort = "COM4";  // Change COM4 to whichever port your motor i
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
+MultiTurnAngleControlClient multiTurnAngleControl(0);        // Initialize Multi Turn Angle Control Client
 UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client
 ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client
 
 // Initialize clientList to make it easier to call ReadMsg for each client
-ClientAbstract *clientList[3] = {&brushlessDrive,
+ClientAbstract *clientList[4] = {&brushlessDrive,
+                                 &multiTurnAngleControl,
                                  &uavcanNode,
                                  &throttleSourceManager
                                  };
@@ -131,6 +134,12 @@ uint8_t getCurrentActiveThrottleSource() {
     return throttleSourceManager.current_active_throttle_source_.get_reply();
 }
 
+uint32_t getTrajectoryQueueLength(){
+    multiTurnAngleControl.trajectory_queue_length_.get(com);
+    sendMessageAndProcessReply();
+    return multiTurnAngleControl.trajectory_queue_length_.get_reply();
+}
+
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
                          0,              //  must be opened with exclusive-access
@@ -201,6 +210,11 @@ int main() {
     cout << "-----Testing throttle_source_manager-----" << endl;
     uint8_t currentActiveThrottleSource = getCurrentActiveThrottleSource();
     cout << "current_active_throttle_source: " << to_string(currentActiveThrottleSource) << endl;
+    cout << "\n" << endl;
+
+    cout << "-----Testing multi_turn_angle_control-----" << endl;
+    uint8_t trajectoryQueueLength = getTrajectoryQueueLength();
+    cout << "trajectory_queue_length: " << to_string(trajectoryQueueLength) << endl;
     cout << "\n" << endl;
 
     cout << "\n" << endl;
