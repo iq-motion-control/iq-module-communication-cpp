@@ -60,7 +60,8 @@ class MultiTurnAngleControlClient : public ClientAbstract {
           additional_velocity_(kTypeAngleMotorControl, obj_idn, kSubAdditionalVelocity),
           low_power_hold_allowed_target_error_(kTypeAngleMotorControl, obj_idn, kSubLowPowerHoldAllowedTargetError),
           low_power_hold_max_brake_error_(kTypeAngleMotorControl, obj_idn, kSubLowPowerHoldMaxBrakeError),
-          ctrl_angle_low_power_(kTypeAngleMotorControl, obj_idn, kSubCtrlAngleLowPower)
+          ctrl_angle_low_power_(kTypeAngleMotorControl, obj_idn, kSubCtrlAngleLowPower),
+          trajectory_queue_length_(kTypeAngleMotorControl, obj_idn, kSubTrajectoryQueueLength)
           {};
 
     // Client Entries
@@ -99,6 +100,7 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<float> trajectory_linear_acceleration_;
     ClientEntry<float> trajectory_average_speed_;
     ClientEntry<int8_t> trajectory_queue_mode_;
+    // FIXME: this should be uint32_t
     ClientEntry<int32_t> ff_;
     ClientEntryVoid sample_zero_angle_;
     ClientEntry<float> zero_angle_;
@@ -107,9 +109,10 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<float> low_power_hold_allowed_target_error_;
     ClientEntry<float> low_power_hold_max_brake_error_;
     ClientEntry<float> ctrl_angle_low_power_;
+    ClientEntry<uint8_t> trajectory_queue_length_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubCtrlAngleLowPower + 1;
+        static const uint8_t kEntryLength              = kSubTrajectoryQueueLength + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &ctrl_mode_,                        // 0
             &ctrl_brake_,                       // 1
@@ -146,7 +149,8 @@ class MultiTurnAngleControlClient : public ClientAbstract {
             &additional_velocity_,               // 32
             &low_power_hold_allowed_target_error_, // 33
             &low_power_hold_max_brake_error_, // 34
-            &ctrl_angle_low_power_ // 35
+            &ctrl_angle_low_power_,                 // 35
+            &trajectory_queue_length_               // 36
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -188,6 +192,7 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     static const uint8_t kSubLowPowerHoldAllowedTargetError = 33;
     static const uint8_t kSubLowPowerHoldMaxBrakeError = 34;
     static const uint8_t kSubCtrlAngleLowPower = 35;
+    static const uint8_t kSubTrajectoryQueueLength          = 36;
 };
 
 #endif /* MULTI_TURN_ANGLE_CONTROL_CLIENT_HPP_ */
