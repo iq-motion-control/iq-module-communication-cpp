@@ -3,13 +3,12 @@
  *      https://learn.microsoft.com/en-us/windows/win32/devio/configuring-a-communications-resource
  *
  * Name: test_api_vertiq4006_speed_F1_0_3_0.cpp
- * Last update: 2026/03/13 by Ben Quan
+ * Last update: 2026/03/24 by Ben Quan
  * Author: Ben Quan
  */
 
 #include <tchar.h>
 #include <windows.h>
-
 #include <iostream>
 
 #include "../inc/brushless_drive_client.hpp"
@@ -33,7 +32,8 @@ UavcanNodeClient uavcanNode(0);                              // Initialize UAVCA
 ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client with Module ID 0
 
 // Initialize clientList to make it easier to call ReadMsg for each client
-ClientAbstract *clientList[4] = {&brushlessDrive,
+ClientAbstract *clientList[5] = {&brushlessDrive,
+                                 &escPropellerInputParser,
                                  &multiTurnAngleControl,
                                  &uavcanNode,
                                  &throttleSourceManager
@@ -157,8 +157,6 @@ void setRawValue(float rawValue){
     handleComTx();
 }
 
-
-
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
                          0,              //  must be opened with exclusive-access
@@ -193,6 +191,7 @@ int main() {
     cout << "default value warning_enable_bitmask: " << to_string(warningEnableBitmask) << endl;
     uint32_t newWarningEnableBitmaskValue = 6;
     cout << "setting warning_enable_bitmask: " << to_string(newWarningEnableBitmaskValue) << endl;
+
     setWarningEnableBitmask(newWarningEnableBitmaskValue);
     uint32_t newWarningEnableBitmask = getWarningEnableBitmask();
     cout << "after setting warning_enable_bitmask: " << to_string(newWarningEnableBitmask) << endl;
@@ -202,6 +201,7 @@ int main() {
     cout << "default value error_enable_bitmask: " << to_string(errorEnableBitmask) << endl;
     uint32_t newErrorEnableBitmaskValue = 2;
     cout << "setting error_enable_bitmask: " << to_string(newErrorEnableBitmaskValue) << endl;
+
     setErrorEnableBitmask(newErrorEnableBitmaskValue);
     uint32_t newErrorEnableBitmask = getErrorEnableBitmask();
     cout << "after setting error_enable_bitmask: " << to_string(newErrorEnableBitmask) << endl;
@@ -211,16 +211,17 @@ int main() {
     cout << "default value critical_enable_bitmask: " << to_string(criticalEnableBitmask) << endl;
     uint32_t newCriticalEnableBitmaskValue = 2;
     cout << "setting critical_enable_bitmask: " << to_string(newCriticalEnableBitmaskValue) << endl;
+
     setCriticalEnableBitmask(newCriticalEnableBitmaskValue);
     uint32_t newCriticalEnableBitmask = getCriticalEnableBitmask();
     cout << "after setting critical_enable_bitmask: " << to_string(newCriticalEnableBitmask) << endl;
     cout << "\n" << endl;
 
-
     uint32_t errorCountConfiguration = getErrorCountConfiguration();
     cout << "default value error_count_configuration: " << to_string(errorCountConfiguration) << endl;
     uint32_t newErrorCountConfigurationValue = 2;
     cout << "setting error_count_configuration: " << to_string(newErrorCountConfigurationValue) << endl;
+
     setErrorCountConfiguration(newErrorCountConfigurationValue);
     uint32_t newErrorCountConfiguration = getErrorCountConfiguration();
     cout << "after setting error_count_configuration: " << to_string(newErrorCountConfiguration) << endl;
@@ -229,8 +230,9 @@ int main() {
     cout << "-----Testing throttle_source_manager-----" << endl;
     uint8_t currentActiveThrottleSource = getCurrentActiveThrottleSource();
     cout << "current_active_throttle_source: " << to_string(currentActiveThrottleSource) << endl;
-    float rawValue = 1.0;
+    float rawValue = 0.0;
     cout << "setting ESC Propeller Input Parser raw_value: " << to_string(rawValue) << endl;
+
     setRawValue(rawValue);
     uint8_t newCurrentActiveThrottleSourceValue = getCurrentActiveThrottleSource();
     cout << "current_active_throttle_source after setting raw_value_: " << to_string(newCurrentActiveThrottleSourceValue) << endl;
@@ -241,6 +243,7 @@ int main() {
     cout << "default value ff: " << to_string(ff) << endl;
     uint32_t newFFValue = 2;
     cout << "setting ff: " << to_string(newFFValue) << endl;
+
     setFF(newFFValue);
     uint32_t newFF = getFF();
     cout << "after setting ff: " << to_string(newFF) << endl;
