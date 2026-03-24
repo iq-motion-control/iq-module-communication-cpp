@@ -2,6 +2,9 @@
  * The serial port setup for windows is based on the example provided by microsoft:
  *      https://learn.microsoft.com/en-us/windows/win32/devio/configuring-a-communications-resource
  *
+ * This test involves spinning your module.
+ * Please make sure no propellers are attached and your module is secured!
+ *
  * Name: test_api_vertiq4006_hyperdrive_F7.cpp
  * Last update: 2026/03/13 by Ben Quan
  * Author: Ben Quan
@@ -23,8 +26,8 @@ HANDLE comPort;                    // Handler for COM port
 const TCHAR *pcCommPort = "COM4";  // Change COM4 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
-EscPropellerInputParserClient escPropellerInputParser(0);    // Initialize ESC Propeller Input Parser Client
-PropellerMotorControlClient propellerMotorControl(0);        // Initialize Propeller Motor Control Client
+EscPropellerInputParserClient escPropellerInputParser(0);    // Initialize ESC Propeller Input Parser Client with Module ID 0
+PropellerMotorControlClient propellerMotorControl(0);        // Initialize Propeller Motor Control Client with Module ID 0
 
 // Initialize clientList to make it easier to call ReadMsg for each client
 ClientAbstract *clientList[2] = {&escPropellerInputParser,
@@ -137,6 +140,8 @@ int main() {
     cout << "after setting torque_max: " << to_string(newTorqueMax) << endl;
     cout << "\n" << endl;
 
+    // This test will attempt to spin your module.
+    // Please make sure no propellers are attached and your module is secured!
     cout << "-----Testing propeller_motor_control-----" << endl;
     float ctrlTorque = getCtrlTorque();
     cout << "default value ctrl_torque: " << to_string(ctrlTorque) << endl;

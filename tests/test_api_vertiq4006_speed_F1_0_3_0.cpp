@@ -25,10 +25,10 @@ HANDLE comPort;                    // Handler for COM port
 const TCHAR *pcCommPort = "COM4";  // Change COM4 to whichever port your motor is connected to
 GenericInterface com;              // Interface used by com port to communicate with motor
 
-BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client
-MultiTurnAngleControlClient multiTurnAngleControl(0);        // Initialize Multi Turn Angle Control Client
-UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client
-ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client
+BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client with Module ID 0
+MultiTurnAngleControlClient multiTurnAngleControl(0);        // Initialize Multi Turn Angle Control Client with Module ID 0
+UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client with Module ID 0
+ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client with Module ID 0
 
 // Initialize clientList to make it easier to call ReadMsg for each client
 ClientAbstract *clientList[4] = {&brushlessDrive,
