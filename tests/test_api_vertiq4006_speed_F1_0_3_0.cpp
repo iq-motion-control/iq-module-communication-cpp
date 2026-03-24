@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "../inc/brushless_drive_client.hpp"
+#include "../inc/esc_propeller_input_parser_client.hpp"
 #include "../inc/client_communication.cpp"
 #include "../inc/generic_interface.hpp"
 #include "../inc/multi_turn_angle_control_client.hpp"
@@ -26,6 +27,7 @@ const TCHAR *pcCommPort = "COM4";  // Change COM4 to whichever port your motor i
 GenericInterface com;              // Interface used by com port to communicate with motor
 
 BrushlessDriveClient brushlessDrive(0);                      // Initialize Brushless Drive Client with Module ID 0
+EscPropellerInputParserClient escPropellerInputParser(0);    // Initialize ESC Propeller Input Parser Client with Module ID 0
 MultiTurnAngleControlClient multiTurnAngleControl(0);        // Initialize Multi Turn Angle Control Client with Module ID 0
 UavcanNodeClient uavcanNode(0);                              // Initialize UAVCAN Node Client with Module ID 0
 ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client with Module ID 0
@@ -150,6 +152,13 @@ void setFF(uint32_t newValue) {
     handleComTx();
 }
 
+void setRawValue(float rawValue){
+    escPropellerInputParser.raw_value_.set(com, rawValue);
+    handleComTx();
+}
+
+
+
 int main() {
     comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
                          0,              //  must be opened with exclusive-access
@@ -220,6 +229,11 @@ int main() {
     cout << "-----Testing throttle_source_manager-----" << endl;
     uint8_t currentActiveThrottleSource = getCurrentActiveThrottleSource();
     cout << "current_active_throttle_source: " << to_string(currentActiveThrottleSource) << endl;
+    float rawValue = 1.0;
+    cout << "setting ESC Propeller Input Parser raw_value: " << to_string(rawValue) << endl;
+    setRawValue(rawValue);
+    uint8_t newCurrentActiveThrottleSourceValue = getCurrentActiveThrottleSource();
+    cout << "current_active_throttle_source after setting raw_value_: " << to_string(newCurrentActiveThrottleSourceValue) << endl;
     cout << "\n" << endl;
 
     cout << "-----Testing multi_turn_angle_control-----" << endl;
