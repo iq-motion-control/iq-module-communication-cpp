@@ -41,8 +41,8 @@ class MotorModelClient : public ClientAbstract {
             encoder_angle_(kTypeMotorModel, obj_idn, kSubEncoderAngle),
             coil_temperature_(kTypeMotorModel, obj_idn, kSubCoilTemperature),
             mechanical_acceleration_(kTypeMotorModel, obj_idn, kSubMechanicalAcceleration),
-			calibration_angle_adjustment_(kTypeMotorModel, obj_idn, kSubCalibrationAngleAdjustment),
-			bd_calibration_angle_(kTypeMotorModel, obj_idn, kSubBdCalibrationAngle)
+            calibration_angle_adjustment_(kTypeMotorModel, obj_idn, kSubCalibrationAngleAdjustment),
+            bd_calibration_angle_(kTypeMotorModel, obj_idn, kSubBdCalibrationAngle)
             {};
 
     // Client Entries
@@ -63,8 +63,8 @@ class MotorModelClient : public ClientAbstract {
     ClientEntry<float> encoder_angle_;
     ClientEntry<float> coil_temperature_;
     ClientEntry<float> mechanical_acceleration_;
-	ClientEntry<float> calibration_angle_adjustment_;
-	ClientEntry<float> bd_calibration_angle_;
+    ClientEntry<float> calibration_angle_adjustment_;
+    ClientEntry<float> bd_calibration_angle_;
     
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
         static const uint8_t kEntryLength = kSubBdCalibrationAngle + 1;
@@ -86,8 +86,8 @@ class MotorModelClient : public ClientAbstract {
             &encoder_angle_, // 14
             &coil_temperature_, // 15
             &mechanical_acceleration_, // 16
-			&calibration_angle_adjustment_, // 17
-			&bd_calibration_angle_, // 18
+            &calibration_angle_adjustment_, // 17
+            &bd_calibration_angle_, // 18
             };
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
@@ -110,9 +110,9 @@ class MotorModelClient : public ClientAbstract {
     static const uint8_t kSubEncoderAngle = 14;
     static const uint8_t kSubCoilTemperature = 15;
     static const uint8_t kSubMechanicalAcceleration = 16;
-	static const uint8_t kSubCalibrationAngleAdjustment = 17;
-	static const uint8_t kSubBdCalibrationAngle = 18;
-	
+    static const uint8_t kSubCalibrationAngleAdjustment = 17;
+    static const uint8_t kSubBdCalibrationAngle = 18;
+    
 };
 
 #endif /* MOTOR_MODEL_CLIENT_HPP_ */
