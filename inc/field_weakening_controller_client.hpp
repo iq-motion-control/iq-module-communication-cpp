@@ -18,10 +18,10 @@ class FieldWeakeningControllerClient : public ClientAbstract {
     FieldWeakeningControllerClient(uint8_t obj_idn)
         : ClientAbstract(kTypeFieldWeakeningController, obj_idn),
             regulation_mode_(kTypeFieldWeakeningController, obj_idn, kSubRegulationMode),
-			field_weakened_q_current_(kTypeFieldWeakeningController, obj_idn, kFieldWeakenedQCurrent),
-			field_weakened_d_current_(kTypeFieldWeakeningController, obj_idn, kFieldWeakenedDCurrent),
-			current_limit_regulated_q_current_(kTypeFieldWeakeningController, obj_idn, kCurrentLimitRegulatedQCurrent),
-			current_limit_regulated_d_current_(kTypeFieldWeakeningController, obj_idn, kCurrentLimitRegulatedDCurrent),
+			field_weakened_q_current_(kTypeFieldWeakeningController, obj_idn, kSubFieldWeakenedQCurrent),
+			field_weakened_d_current_(kTypeFieldWeakeningController, obj_idn, kSubFieldWeakenedDCurrent),
+			current_limit_regulated_q_current_(kTypeFieldWeakeningController, obj_idn, kSubCurrentLimitRegulatedQCurrent),
+			current_limit_regulated_d_current_(kTypeFieldWeakeningController, obj_idn, kSubCurrentLimitRegulatedDCurrent)
             {};
 
     // Client Entries
