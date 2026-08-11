@@ -65,7 +65,7 @@
                                   &motorModel,
                                   &rotorAngleGenerator,
                                   &voltageTargetGenerator,
-								  &fieldWeakeningController
+                                  &fieldWeakeningController
                                   };
  
  //  Send out any message data we have over the serial interface
@@ -226,6 +226,18 @@ float getRotorAngle() {
     return rotorAngleGenerator.rotor_angle_.get_reply();
 }
 
+float getMotoringSupplyCurrentLimit(){
+    currentSafeties.motoring_supply_current_limit_.get(com);
+    sendMessageAndProcessReply();
+    return currentSafeties.motoring_supply_current_limit_.get_reply();
+}
+
+float getRegenSupplyCurrentLimit(){
+    currentSafeties.regen_supply_current_limit_.get(com);
+    sendMessageAndProcessReply();
+    return currentSafeties.regen_supply_current_limit_.get_reply();
+}
+
 float getQCurrent() {
     voltageTargetGenerator.q_current_.get(com);
     sendMessageAndProcessReply();
@@ -233,43 +245,43 @@ float getQCurrent() {
 }
 
 uint8_t getRegulationMode() {
-	fieldWeakeningController.regulation_mode_.get(com);
-	sendMessageAndProcessReply();
-	return fieldWeakeningController.regulation_mode_.get_reply();
+    fieldWeakeningController.regulation_mode_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.regulation_mode_.get_reply();
 }
 
 float getFieldWeakenedQCurrent() {
-	fieldWeakeningController.field_weakened_q_current_.get(com);
-	sendMessageAndProcessReply();
-	return fieldWeakeningController.field_weakened_q_current_.get_reply();
+    fieldWeakeningController.field_weakened_q_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.field_weakened_q_current_.get_reply();
 }
 
 float getFieldWeakenedDCurrent() {
-	fieldWeakeningController.field_weakened_d_current_.get(com);
-	sendMessageAndProcessReply();
-	return fieldWeakeningController.field_weakened_d_current_.get_reply();
+    fieldWeakeningController.field_weakened_d_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.field_weakened_d_current_.get_reply();
 }
 
 float getCurrentLimitRegulatedQCurrent() {
-	fieldWeakeningController.current_limit_regulated_q_current_.get(com);
-	sendMessageAndProcessReply();
-	return fieldWeakeningController.current_limit_regulated_q_current_.get_reply();
+    fieldWeakeningController.current_limit_regulated_q_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.current_limit_regulated_q_current_.get_reply();
 }
 
 float getCurrentLimitRegulatedDCurrent() {
-	fieldWeakeningController.current_limit_regulated_d_current_.get(com);
-	sendMessageAndProcessReply();
-	return fieldWeakeningController.current_limit_regulated_d_current_.get_reply();
+    fieldWeakeningController.current_limit_regulated_d_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.current_limit_regulated_d_current_.get_reply();
 }
 
 void commandVoltsVspin(float volts){
-	driveControlInterface.voltage_target_.set(com, volts);
-	 handleComTx();
+    driveControlInterface.voltage_target_.set(com, volts);
+     handleComTx();
 }
 
 void commandCoastVspin(){
-	driveControlInterface.coast_.set(com);
-	handleComTx();
+    driveControlInterface.coast_.set(com);
+    handleComTx();
 }
 
  int main() {
@@ -336,10 +348,10 @@ void commandCoastVspin(){
 
 
      cout << "\nTesting VSpin Clients\n" << endl;
-	 
-	 cout << "setting 5 volts" << endl;
-	 commandVoltsVspin(5.0f);
-	 Sleep(2000);
+     
+     cout << "setting 5 volts" << endl;
+     commandVoltsVspin(5.0f);
+     Sleep(2000);
 
      float final_max_current_derate = getFinalMaxCurrentDerate();
      cout << "final_max_current_derate:" << to_string(final_max_current_derate) << endl;
@@ -358,30 +370,36 @@ void commandCoastVspin(){
 
      float q_current = getQCurrent();
      cout << "q_current:" << to_string(q_current) << endl;
-	 
-	 float calibration_adjust = getCalibrationAdjustment();
-	 cout << "calibration angle adjustment:" << to_string(calibration_adjust) << endl;
-	 
-	 float bd_cal_angle = getBdCalibrationAngle();
-	 cout << "bd cal angle:" << to_string(bd_cal_angle) << endl;
-	 
-	 uint8_t regulation_mode = getRegulationMode();
-	 cout << "regulation mode:" << to_string(regulation_mode) << endl;
-	 
-	 float field_weakened_q_current = getFieldWeakenedQCurrent();
-	 cout << "field weakened q current:" << to_string(field_weakened_q_current) << endl;
-	 
-	 float field_weakened_d_current = getFieldWeakenedDCurrent();
-	 cout << "field weakenend d current:" << to_string(field_weakened_d_current) << endl;
-	 
-	 float current_limit_regulated_q_current = getCurrentLimitRegulatedQCurrent();
-	 cout << "current limit regulated q current:" << to_string(current_limit_regulated_q_current) << endl;
-	 
-	 float current_limit_regulated_d_current = getCurrentLimitRegulatedDCurrent();
-	 cout << "current limit regulated d current:" << to_string(current_limit_regulated_d_current) << endl;
-	 
-	 commandCoastVspin();
-	 
+     
+     float calibration_adjust = getCalibrationAdjustment();
+     cout << "calibration angle adjustment:" << to_string(calibration_adjust) << endl;
+     
+     float bd_cal_angle = getBdCalibrationAngle();
+     cout << "bd cal angle:" << to_string(bd_cal_angle) << endl;
+     
+     float motoring_supply_limit = getMotoringSupplyCurrentLimit();
+     cout << "motoring supply limit:" << to_string(motoring_supply_limit) << endl;
+     
+     float regen_supply_limit = getRegenSupplyCurrentLimit();
+     cout << "regen supply limit:" << to_string(regen_supply_limit) << endl;
+     
+     uint8_t regulation_mode = getRegulationMode();
+     cout << "regulation mode:" << to_string(regulation_mode) << endl;
+     
+     float field_weakened_q_current = getFieldWeakenedQCurrent();
+     cout << "field weakened q current:" << to_string(field_weakened_q_current) << endl;
+     
+     float field_weakened_d_current = getFieldWeakenedDCurrent();
+     cout << "field weakenend d current:" << to_string(field_weakened_d_current) << endl;
+     
+     float current_limit_regulated_q_current = getCurrentLimitRegulatedQCurrent();
+     cout << "current limit regulated q current:" << to_string(current_limit_regulated_q_current) << endl;
+     
+     float current_limit_regulated_d_current = getCurrentLimitRegulatedDCurrent();
+     cout << "current limit regulated d current:" << to_string(current_limit_regulated_d_current) << endl;
+     
+     commandCoastVspin();
+     
      cout << "\nTesting finished" << endl;
      return 0;
  }
