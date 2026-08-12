@@ -1,11 +1,5 @@
 /*
- * This example C++ program uses the Power Monitor client to retrieve the Voltage of a motor.
- * The serial port setup for windows is based on the example provided by microsoft:
- *      https://learn.microsoft.com/en-us/windows/win32/devio/configuring-a-communications-resource
- *
- * Name: 8108_speed_v0_0_7_test.cpp
- * Last update: 2023/04/18 by Ben Quan
- * Author: Ben Quan
+ * Basic testing of VSpin module support in the C++ API
  */
 
  #include <tchar.h>
@@ -30,12 +24,13 @@
  #include "../inc/motor_model_client.hpp"
  #include "../inc/rotor_angle_generator_client.hpp"
  #include "../inc/voltage_target_generator_client.hpp"
+ #include "../inc/field_weakening_controller_client.hpp"
  
  
  using namespace std;
  
  HANDLE comPort;                    // Handler for COM port
- TCHAR *pcCommPort = TEXT("COM4");  // Change COM4 to whichever port your motor is connected to
+ TCHAR *pcCommPort = TEXT("COM3");  // Change COM3 to whichever port your motor is connected to
  GenericInterface com;              // Interface used by com port to communicate with motor
  
  ArmingHandlerClient armingHandler(0);                        // Initialize Arming Handler Client
@@ -46,17 +41,18 @@
  PowerMonitorClient powerMonitorClient(0);                    // Initialize Power Monitor Client
  ThrottleSourceManagerClient throttleSourceManager(0);        // Initialize Throttle Source Manager Client
 
- // Hyperdrive clients
+ // VSpin clients
  CurrentSafetiesClient currentSafeties(0);
  DriveControlInterfaceClient driveControlInterface(0);
  MotorDriverClient motorDriver(0);
  MotorModelClient motorModel(0);
  RotorAngleGeneratorClient rotorAngleGenerator(0);
  VoltageTargetGeneratorClient voltageTargetGenerator(0);
+ FieldWeakeningControllerClient fieldWeakeningController(0);
  
  
  // Initialize clientList to make it easier to call ReadMsg for each client
- ClientAbstract *clientList[13] = {&armingHandler,
+ ClientAbstract *clientList[14] = {&armingHandler,
                                   &stoppingHandler,
                                   &propellerMotorControl,
                                   &escPropellerInputParser,
@@ -68,7 +64,8 @@
                                   &motorDriver,
                                   &motorModel,
                                   &rotorAngleGenerator,
-                                  &voltageTargetGenerator
+                                  &voltageTargetGenerator,
+                                  &fieldWeakeningController
                                   };
  
  //  Send out any message data we have over the serial interface
@@ -165,65 +162,128 @@
  float getVoltsCascaded() {
      powerMonitorClient.volts_cascaded_.get(com);
      sendMessageAndProcessReply();
-     powerMonitorClient.volts_cascaded_.get_reply();
+     return powerMonitorClient.volts_cascaded_.get_reply();
  }
  
  uint32_t getVoltsCascadedFilterFc() {
      powerMonitorClient.volts_cascaded_filter_fc_.get(com);
      sendMessageAndProcessReply();
-     powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
+     return powerMonitorClient.volts_cascaded_filter_fc_.get_reply();
  }
  
  float getThrottleTimeout() {
      throttleSourceManager.throttle_timeout_.get(com);
      sendMessageAndProcessReply();
-     throttleSourceManager.throttle_timeout_.get_reply();
+     return throttleSourceManager.throttle_timeout_.get_reply();
  }
  
  uint8_t getDronecanPriority() {
      throttleSourceManager.dronecan_priority_.get(com);
      sendMessageAndProcessReply();
-     throttleSourceManager.dronecan_priority_.get_reply();
+     return throttleSourceManager.dronecan_priority_.get_reply();
  }
 
-// Hyperdrive functions
+// VSpin functions
 float getFinalMaxCurrentDerate() {
     currentSafeties.final_max_current_derate_.get(com);
     sendMessageAndProcessReply();
-    currentSafeties.final_max_current_derate_.get_reply();
+    return currentSafeties.final_max_current_derate_.get_reply();
 }
 
 float getVoltageTarget() {
     driveControlInterface.voltage_target_.get(com);
     sendMessageAndProcessReply();
-    driveControlInterface.voltage_target_.get_reply();
+    return driveControlInterface.voltage_target_.get_reply();
 }
 
 float getRotorMagnitude() {
     motorDriver.rotor_magnitude_.get(com);
     sendMessageAndProcessReply();
-    motorDriver.rotor_magnitude_.get_reply();
+    return motorDriver.rotor_magnitude_.get_reply();
 }
 
 float getMechanicalInductance() {
     motorModel.mechanical_inductance_.get(com);
     sendMessageAndProcessReply();
-    motorModel.mechanical_inductance_.get_reply();
+    return motorModel.mechanical_inductance_.get_reply();
+}
+
+float getCalibrationAdjustment() {
+    motorModel.calibration_angle_adjustment_.get(com);
+    sendMessageAndProcessReply();
+    return motorModel.calibration_angle_adjustment_.get_reply();
+}
+
+float getBdCalibrationAngle() {
+    motorModel.bd_calibration_angle_.get(com);
+    sendMessageAndProcessReply();
+    return motorModel.bd_calibration_angle_.get_reply();
 }
 
 float getRotorAngle() {
     rotorAngleGenerator.rotor_angle_.get(com);
     sendMessageAndProcessReply();
-    rotorAngleGenerator.rotor_angle_.get_reply();
+    return rotorAngleGenerator.rotor_angle_.get_reply();
+}
+
+float getMotoringSupplyCurrentLimit(){
+    currentSafeties.motoring_supply_current_limit_.get(com);
+    sendMessageAndProcessReply();
+    return currentSafeties.motoring_supply_current_limit_.get_reply();
+}
+
+float getRegenSupplyCurrentLimit(){
+    currentSafeties.regen_supply_current_limit_.get(com);
+    sendMessageAndProcessReply();
+    return currentSafeties.regen_supply_current_limit_.get_reply();
 }
 
 float getQCurrent() {
     voltageTargetGenerator.q_current_.get(com);
     sendMessageAndProcessReply();
-    voltageTargetGenerator.q_current_.get_reply();
+    return voltageTargetGenerator.q_current_.get_reply();
 }
 
- 
+uint8_t getRegulationMode() {
+    fieldWeakeningController.regulation_mode_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.regulation_mode_.get_reply();
+}
+
+float getFieldWeakenedQCurrent() {
+    fieldWeakeningController.field_weakened_q_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.field_weakened_q_current_.get_reply();
+}
+
+float getFieldWeakenedDCurrent() {
+    fieldWeakeningController.field_weakened_d_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.field_weakened_d_current_.get_reply();
+}
+
+float getCurrentLimitRegulatedQCurrent() {
+    fieldWeakeningController.current_limit_regulated_q_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.current_limit_regulated_q_current_.get_reply();
+}
+
+float getCurrentLimitRegulatedDCurrent() {
+    fieldWeakeningController.current_limit_regulated_d_current_.get(com);
+    sendMessageAndProcessReply();
+    return fieldWeakeningController.current_limit_regulated_d_current_.get_reply();
+}
+
+void commandVoltsVspin(float volts){
+    driveControlInterface.voltage_target_.set(com, volts);
+     handleComTx();
+}
+
+void commandCoastVspin(){
+    driveControlInterface.coast_.set(com);
+    handleComTx();
+}
+
  int main() {
      comPort = CreateFile(pcCommPort, GENERIC_READ | GENERIC_WRITE,
                           0,              //  must be opened with exclusive-access
@@ -287,7 +347,11 @@ float getQCurrent() {
      cout << "dronecan_priority: " << to_string(dronecan_priority) << endl;
 
 
-     cout << "\nTesting Hyperdrive Clients\n" << endl;
+     cout << "\nTesting VSpin Clients\n" << endl;
+     
+     cout << "setting 5 volts" << endl;
+     commandVoltsVspin(5.0f);
+     Sleep(2000);
 
      float final_max_current_derate = getFinalMaxCurrentDerate();
      cout << "final_max_current_derate:" << to_string(final_max_current_derate) << endl;
@@ -306,7 +370,36 @@ float getQCurrent() {
 
      float q_current = getQCurrent();
      cout << "q_current:" << to_string(q_current) << endl;
- 
+     
+     float calibration_adjust = getCalibrationAdjustment();
+     cout << "calibration angle adjustment:" << to_string(calibration_adjust) << endl;
+     
+     float bd_cal_angle = getBdCalibrationAngle();
+     cout << "bd cal angle:" << to_string(bd_cal_angle) << endl;
+     
+     float motoring_supply_limit = getMotoringSupplyCurrentLimit();
+     cout << "motoring supply limit:" << to_string(motoring_supply_limit) << endl;
+     
+     float regen_supply_limit = getRegenSupplyCurrentLimit();
+     cout << "regen supply limit:" << to_string(regen_supply_limit) << endl;
+     
+     uint8_t regulation_mode = getRegulationMode();
+     cout << "regulation mode:" << to_string(regulation_mode) << endl;
+     
+     float field_weakened_q_current = getFieldWeakenedQCurrent();
+     cout << "field weakened q current:" << to_string(field_weakened_q_current) << endl;
+     
+     float field_weakened_d_current = getFieldWeakenedDCurrent();
+     cout << "field weakenend d current:" << to_string(field_weakened_d_current) << endl;
+     
+     float current_limit_regulated_q_current = getCurrentLimitRegulatedQCurrent();
+     cout << "current limit regulated q current:" << to_string(current_limit_regulated_q_current) << endl;
+     
+     float current_limit_regulated_d_current = getCurrentLimitRegulatedDCurrent();
+     cout << "current limit regulated d current:" << to_string(current_limit_regulated_d_current) << endl;
+     
+     commandCoastVspin();
+     
      cout << "\nTesting finished" << endl;
      return 0;
  }
